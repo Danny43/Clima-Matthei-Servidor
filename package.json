@@ -1,7 +1,7 @@
 {
   "name": "clima-matthei-servidor",
   "version": "1.0.0",
-  "description": "Serie de videos en Youtube: <https://www.youtube.com/watch?v=gc-v3_LDjPk&list=PLzHaXzj_WAyn-kfjTcXJP3PMjS2I-QA0c>",
+  "description": "Proyecto de Taller de Integracion de Software",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
