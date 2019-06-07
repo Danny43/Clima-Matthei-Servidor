@@ -8,4 +8,5 @@ module.exports = {
   DireccionVientoDto: require("./direccion-viento.dto"),
   PresionAtmosfericaDto: require("./presion-atmosferica.dto"),
   RegistroDto: require("./registro.dto"),
+  Registro2Dto: require("./registro2.dto"),
 };
