@@ -13,6 +13,11 @@ class BaseService {
     return entity;
   }
 
+  async getbyFecha(fecha) {
+    const entity = await this._entityBusiness.getbyFecha(fecha);
+    return entity;
+  }
+
   async create(entity) {
     const createdEntity = await this._entityBusiness.create(entity);
     return createdEntity;

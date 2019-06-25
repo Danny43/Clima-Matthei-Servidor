@@ -16,6 +16,7 @@ const GeotermometroRoutes = require("../api/routes/geotermometro.routes");
 const DireccionVientoRoutes = require("../api/routes/direccion-viento.routes");
 const PresionAtmosfericaRoutes = require("../api/routes/presion-atmosferica.routes");
 const RegistroRoutes = require("../api/routes/registro.routes");
+const RegistroFechaRoutes = require("../api/routes/registro-fecha.routes");
 
 // business
 const {
@@ -97,6 +98,7 @@ container
     PresionAtmosfericaRoutes: asFunction(PresionAtmosfericaRoutes).singleton(),
     RegistroController: asClass(RegistroController).singleton(),
     RegistroRoutes: asFunction(RegistroRoutes).singleton(),
+    RegistroFechaRoutes: asFunction(RegistroFechaRoutes).singleton(),
   })
   .register({
     config: asValue(config)

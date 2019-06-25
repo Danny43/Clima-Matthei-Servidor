@@ -11,6 +11,11 @@ class BaseRepository {
   get(id) {
     return this._db[this.entity].findOne({ where: { id } });
   }
+  getbyFecha(fecha) {
+    return this._db[this.entity].findOne({
+       where: {
+          fecha: fecha } });
+  }
 
   create(entity) {
     return this._db[this.entity].create(entity);

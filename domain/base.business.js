@@ -17,6 +17,12 @@ class BaseBusiness {
     return mapper(this.entityToMap, entity.toJSON());
   }
 
+  async getbyFecha(fecha) {
+    const entity = await this._entityRepository.getbyFecha(fecha);
+    if (!entity) return null;
+    return mapper(this.entityToMap, entity.toJSON());
+  }
+
   async create(entity) {
     entity = mapper(this.entityToMap, entity);
     const createdEntity = await this._entityRepository.create(entity);

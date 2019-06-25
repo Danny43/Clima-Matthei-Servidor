@@ -13,6 +13,7 @@ module.exports = function({
   DireccionVientoRoutes,
   PresionAtmosfericaRoutes,
   RegistroRoutes,
+  RegistroFechaRoutes,
  }) {
   const router = Router();
   const apiRoute = Router();
@@ -31,6 +32,7 @@ module.exports = function({
   apiRoute.use("/direccion-viento", DireccionVientoRoutes);
   apiRoute.use("/presion-atmosferica", PresionAtmosfericaRoutes);
   apiRoute.use("/registro", RegistroRoutes);
+  apiRoute.use("/registro-fecha", RegistroFechaRoutes);
   router.use("/api", apiRoute);
 
   return router;
