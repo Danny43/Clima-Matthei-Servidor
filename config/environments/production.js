@@ -1,9 +1,9 @@
 module.exports = {
   PORT: process.env.PORT,
   DB:  {
-    database: 'matthei',
-    username: 'mattheiuser',
-    password: 'mattheiadmin28',
+    database: 'mt',
+    username: 'apiserver',
+    password: 'mattheiAPIJS2435!',
     host: 'localhost',
     dialect: 'mysql',
     pool: {
