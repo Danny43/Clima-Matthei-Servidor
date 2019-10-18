@@ -20,12 +20,7 @@ module.exports = function({ RegistroController }) {
     next()
   }
 
-  router.get("/", RegistroController.getRegistros.bind(RegistroController));
-  router.get("/:id", RegistroController.getRegistro.bind(RegistroController));
-  router.get("/:fecha", RegistroController.getRegistroFecha.bind(RegistroController));
-  router.post("/", verifyToken, RegistroController.createRegistro.bind(RegistroController));
-  router.put("/:id", verifyToken, RegistroController.updateRegistro.bind(RegistroController));
-  router.delete("/:id", verifyToken, RegistroController.deleteRegistro.bind(RegistroController));
+  router.get("/", verifyToken, RegistroController.getRegistros.bind(RegistroController));
 
   return router;
 };

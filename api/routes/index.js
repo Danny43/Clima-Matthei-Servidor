@@ -14,6 +14,7 @@ module.exports = function({
   PresionAtmosfericaRoutes,
   RegistroRoutes,
   RegistroFechaRoutes,
+  VerificarUsuarioRoutes,
  }) {
   const router = Router();
   const apiRoute = Router();
@@ -33,6 +34,7 @@ module.exports = function({
   apiRoute.use("/presion-atmosferica", PresionAtmosfericaRoutes);
   apiRoute.use("/registro", RegistroRoutes);
   apiRoute.use("/registro-fecha", RegistroFechaRoutes);
+  apiRoute.use("/verificar-usuario", VerificarUsuarioRoutes);
   router.use("/api", apiRoute);
 
   return router;

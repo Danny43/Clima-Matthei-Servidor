@@ -17,6 +17,7 @@ const DireccionVientoRoutes = require("../api/routes/direccion-viento.routes");
 const PresionAtmosfericaRoutes = require("../api/routes/presion-atmosferica.routes");
 const RegistroRoutes = require("../api/routes/registro.routes");
 const RegistroFechaRoutes = require("../api/routes/registro-fecha.routes");
+const VerificarUsuarioRoutes = require("../api/routes/verificar-usuario.routes");
 
 // business
 const {
@@ -99,6 +100,7 @@ container
     RegistroController: asClass(RegistroController).singleton(),
     RegistroRoutes: asFunction(RegistroRoutes).singleton(),
     RegistroFechaRoutes: asFunction(RegistroFechaRoutes).singleton(),
+    VerificarUsuarioRoutes: asFunction(VerificarUsuarioRoutes).singleton(),
   })
   .register({
     config: asValue(config)
