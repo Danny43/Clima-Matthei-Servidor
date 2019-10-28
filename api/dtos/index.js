@@ -9,4 +9,13 @@ module.exports = {
   PresionAtmosfericaDto: require("./presion-atmosferica.dto"),
   RegistroDto: require("./registro.dto"),
   Registro2Dto: require("./registro2.dto"),
+  TemperaturaJournalDto: require("./temperatura-journal.dto"),
+  NubosidadJournalDto: require("./nubosidad-journal.dto"),
+  VisibilidadJournalDto: require("./visibilidad-journal.dto"),
+  TermometroSecoJournalDto: require("./termometro-seco-journal.dto"),
+  TermometroHumedoJournalDto: require("./termometro-humedo-journal.dto"),
+  GeotermometroJournalDto: require("./geotermometro-journal.dto"),
+  DireccionVientoJournalDto: require("./direccion-viento-journal.dto"),
+  PresionAtmosfericaJournalDto: require("./presion-atmosferica-journal.dto"),
+  RegistroJournalDto: require("./registro-journal.dto"),
 };

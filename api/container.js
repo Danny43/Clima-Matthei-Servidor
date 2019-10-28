@@ -30,6 +30,15 @@ const {
   DireccionVientoBusiness,
   PresionAtmosfericaBusiness,
   RegistroBusiness,
+  TemperaturaJournalBusiness,
+  NubosidadJournalBusiness,
+  VisibilidadJournalBusiness,
+  TermometroSecoJournalBusiness,
+  TermometroHumedoJournalBusiness,
+  GeotermometroJournalBusiness,
+  DireccionVientoJournalBusiness,
+  PresionAtmosfericaJournalBusiness,
+  RegistroJournalBusiness,
 } = require("../domain/");
 
 // controllers
@@ -56,6 +65,15 @@ const {
    DireccionVientoService, 
    PresionAtmosfericaService, 
    RegistroService, 
+   TemperaturaJournalService, 
+   NubosidadJournalService, 
+   VisibilidadJournalService, 
+   TermometroSecoJournalService, 
+   TermometroHumedoJournalService, 
+   GeotermometroJournalService, 
+   DireccionVientoJournalService, 
+   PresionAtmosfericaJournalService, 
+   RegistroJournalService, 
   } = require("../services");
 
 // repositories
@@ -69,6 +87,15 @@ const {
   DireccionVientoRepository, 
   PresionAtmosfericaRepository, 
   RegistroRepository, 
+  TemperaturaJournalRepository, 
+  NubosidadJournalRepository, 
+  VisibilidadJournalRepository, 
+  TermometroSecoJournalRepository, 
+  TermometroHumedoJournalRepository, 
+  GeotermometroJournalRepository, 
+  DireccionVientoJournalRepository, 
+  PresionAtmosfericaJournalRepository, 
+  RegistroJournalRepository, 
 } = require("../dal/repositories");
 
 // db
@@ -118,6 +145,15 @@ container
     DireccionVientoService: asClass(DireccionVientoService).singleton(),
     PresionAtmosfericaService: asClass(PresionAtmosfericaService).singleton(),
     RegistroService: asClass(RegistroService).singleton(),
+    TemperaturaJournalService: asClass(TemperaturaJournalService).singleton(),
+    NubosidadJournalService: asClass(NubosidadJournalService).singleton(),
+    VisibilidadJournalService: asClass(VisibilidadJournalService).singleton(),
+    TermometroSecoJournalService: asClass(TermometroSecoJournalService).singleton(),
+    TermometroHumedoJournalService: asClass(TermometroHumedoJournalService).singleton(),
+    GeotermometroJournalService: asClass(GeotermometroJournalService).singleton(),
+    DireccionVientoJournalService: asClass(DireccionVientoJournalService).singleton(),
+    PresionAtmosfericaJournalService: asClass(PresionAtmosfericaJournalService).singleton(),
+    RegistroJournalService: asClass(RegistroJournalService).singleton(),
   })
   .register({
     TemperaturaRepository: asClass(TemperaturaRepository).singleton(),
@@ -129,6 +165,15 @@ container
     DireccionVientoRepository: asClass(DireccionVientoRepository).singleton(),
     PresionAtmosfericaRepository: asClass(PresionAtmosfericaRepository).singleton(),
     RegistroRepository: asClass(RegistroRepository).singleton(),
+    TemperaturaJournalRepository: asClass(TemperaturaJournalRepository).singleton(),
+    NubosidadJournalRepository: asClass(NubosidadJournalRepository).singleton(),
+    VisibilidadJournalRepository: asClass(VisibilidadJournalRepository).singleton(),
+    TermometroSecoJournalRepository: asClass(TermometroSecoJournalRepository).singleton(),
+    TermometroHumedoJournalRepository: asClass(TermometroHumedoJournalRepository).singleton(),
+    GeotermometroJournalRepository: asClass(GeotermometroJournalRepository).singleton(),
+    DireccionVientoJournalRepository: asClass(DireccionVientoJournalRepository).singleton(),
+    PresionAtmosfericaJournalRepository: asClass(PresionAtmosfericaJournalRepository).singleton(),
+    RegistroJournalRepository: asClass(RegistroJournalRepository).singleton(),
   })
   .register({
     TemperaturaBusiness: asClass(TemperaturaBusiness).singleton(),
@@ -140,6 +185,15 @@ container
     DireccionVientoBusiness: asClass(DireccionVientoBusiness).singleton(),
     PresionAtmosfericaBusiness: asClass(PresionAtmosfericaBusiness).singleton(),
     RegistroBusiness: asClass(RegistroBusiness).singleton(),
+    TemperaturaJournalBusiness: asClass(TemperaturaJournalBusiness).singleton(),
+    NubosidadJournalBusiness: asClass(NubosidadJournalBusiness).singleton(),
+    VisibilidadJournalBusiness: asClass(VisibilidadJournalBusiness).singleton(),
+    TermometroSecoJournalBusiness: asClass(TermometroSecoJournalBusiness).singleton(),
+    TermometroHumedoJournalBusiness: asClass(TermometroHumedoJournalBusiness).singleton(),
+    GeotermometroJournalBusiness: asClass(GeotermometroJournalBusiness).singleton(),
+    DireccionVientoJournalBusiness: asClass(DireccionVientoJournalBusiness).singleton(),
+    PresionAtmosfericaJournalBusiness: asClass(PresionAtmosfericaJournalBusiness).singleton(),
+    RegistroJournalBusiness: asClass(RegistroJournalBusiness).singleton(),
   });
 
 module.exports = container;

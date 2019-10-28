@@ -1,5 +1,6 @@
 const mapper = require("automapper-js");
-const { RegistroDto,
+const { 
+  RegistroDto,
   Registro2Dto,
   TemperaturaDto,
   DireccionVientoDto,
@@ -8,7 +9,17 @@ const { RegistroDto,
   PresionAtmosfericaDto,
   NubosidadDto,
   VisibilidadDto,
-  GeotermometroDto } = require("../dtos");
+  GeotermometroDto,
+  RegistroJournalDto,
+  TemperaturaJournalDto,
+  DireccionVientoJournalDto,
+  TermometroSecoJournalDto,
+  TermometroHumedoJournalDto,
+  PresionAtmosfericaJournalDto,
+  NubosidadJournalDto,
+  VisibilidadJournalDto,
+  GeotermometroJournalDto,
+ } = require("../dtos");
 
 class RegistroController {
   constructor({
@@ -20,7 +31,16 @@ class RegistroController {
     PresionAtmosfericaService,
     NubosidadService,
     VisibilidadService,
-    GeotermometroService
+    GeotermometroService,
+    RegistroJournalService,
+    TemperaturaJournalService,
+    DireccionVientoJournalService,
+    TermometroSecoJournalService,
+    TermometroHumedoJournalService,
+    PresionAtmosfericaJournalService,
+    NubosidadJournalService,
+    VisibilidadJournalService,
+    GeotermometroJournalService,
   }) {
     this._registroService = RegistroService;
     this._temperaturaService = TemperaturaService;
@@ -31,6 +51,15 @@ class RegistroController {
     this._nubosidadService = NubosidadService;
     this._visibilidadService = VisibilidadService;
     this._geotermometroService = GeotermometroService;
+    this._registroJournalService = RegistroJournalService;
+    this._temperaturaJournalService = TemperaturaJournalService;
+    this._direccionVientoJournalService = DireccionVientoJournalService;
+    this._termometroSecoJournalService = TermometroSecoJournalService;
+    this._termometroHumedoJournalService = TermometroHumedoJournalService;
+    this._presionAtmosfericaJournalService = PresionAtmosfericaJournalService;
+    this._nubosidadJournalService = NubosidadJournalService;
+    this._visibilidadJournalService = VisibilidadJournalService;
+    this._geotermometroJournalService = GeotermometroJournalService;
   }
 
   async getRegistros(req, res) {
@@ -180,6 +209,7 @@ class RegistroController {
     var reg = new Registro2Dto();
     var registro = new RegistroDto();
     var temperatura = new TemperaturaDto();
+    var temperaturaJournal = new TemperaturaJournalDto();
     var termometroHumedo = new TermometroHumedoDto();
     var termometroSeco = new TermometroSecoDto();
     var presionAtmosferica = new PresionAtmosfericaDto();
@@ -192,6 +222,12 @@ class RegistroController {
 
     temperatura = reg.Temperatura;
     let createdTemperatura = await this._temperaturaService.create(temperatura);
+
+    temperaturaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    temperaturaJournal.UsuarioId = 1;
+    temperaturaJournal.minima = createdTemperatura.minima;
+    temperaturaJournal.maxima = createdTemperatura.maxima;
+    let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
 
     termometroHumedo = reg.TermometroHumedo;
     const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);

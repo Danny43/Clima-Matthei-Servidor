@@ -1,8 +1,9 @@
 const mapper = require("automapper-js");
-const { TemperaturaDto } = require("../dtos");
+const { TemperaturaDto, TemperaturaJournalDto } = require("../dtos");
 class TemperaturaController {
-  constructor({ TemperaturaService }) {
+  constructor({ TemperaturaService, TemperaturaJournalService }) {
     this._temperaturaService = TemperaturaService;
+    this._temperaturaJournalService = TemperaturaJournalService;
   }
 
   async getTemperaturas(req, res) {
@@ -26,6 +27,7 @@ class TemperaturaController {
   }
 
   async createTemperatura(req, res) {
+    let temperaturaJournal =  new TemperaturaJournalDto();
     const { body } = req;
     const createdTemperatura = await this._temperaturaService.create(body);
     const temperatura = mapper(TemperaturaDto, createdTemperatura);
