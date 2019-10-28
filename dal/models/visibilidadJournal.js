@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     h1800: DataTypes.INTEGER
   }, {});
   VisibilidadsJournal.associate = function(models) {
-    VisibilidadsJournal.belongsTo(models.Usuairo);
+    VisibilidadsJournal.belongsTo(models.Usuario);
     VisibilidadsJournal.belongsTo(models.Visibilidad);
   };
   return VisibilidadsJournal;
