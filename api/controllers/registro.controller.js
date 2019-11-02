@@ -154,6 +154,7 @@ class RegistroController {
       var nubosidad = new NubosidadDto();
       var visibilidad = new VisibilidadDto();
       var geotermometro = new GeotermometroDto();
+      var temperaturaJournal = new TemperaturaJournalDto();
 
 
       const createdTemperatura = await this._temperaturaService.create(temperatura);
