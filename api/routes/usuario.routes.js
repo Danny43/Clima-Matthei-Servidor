@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const jwt = require('jsonwebtoken');
 
-module.exports = function({ RegistroController }) {
+module.exports = function({ UsuarioController }) {
   const router = Router();
 
   function verifyToken(req, res, next) {
@@ -20,7 +20,12 @@ module.exports = function({ RegistroController }) {
     next()
   }
 
-  router.get("/", verifyToken, RegistroController.getRegistros.bind(RegistroController));
+  //Comprobar Sesion
+  router.get("/", verifyToken, UsuarioController.getToken.bind(UsuarioController));
+  //Registrar
+  router.post("/", UsuarioController.iniciarSesion.bind(UsuarioController));
+  //Iniciar Sesion
+  router.put("/",  UsuarioController.iniciarSesion.bind(UsuarioController));
 
   return router;
 };

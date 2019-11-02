@@ -17,7 +17,7 @@ const DireccionVientoRoutes = require("../api/routes/direccion-viento.routes");
 const PresionAtmosfericaRoutes = require("../api/routes/presion-atmosferica.routes");
 const RegistroRoutes = require("../api/routes/registro.routes");
 const RegistroFechaRoutes = require("../api/routes/registro-fecha.routes");
-const VerificarUsuarioRoutes = require("../api/routes/verificar-usuario.routes");
+const UsuarioRoutes = require("../api/routes/usuario.routes");
 
 // business
 const {
@@ -30,6 +30,7 @@ const {
   DireccionVientoBusiness,
   PresionAtmosfericaBusiness,
   RegistroBusiness,
+  UsuarioBusiness,
   TemperaturaJournalBusiness,
   NubosidadJournalBusiness,
   VisibilidadJournalBusiness,
@@ -39,6 +40,7 @@ const {
   DireccionVientoJournalBusiness,
   PresionAtmosfericaJournalBusiness,
   RegistroJournalBusiness,
+  UsuarioJournalBusiness,
 } = require("../domain/");
 
 // controllers
@@ -52,6 +54,7 @@ const {
   DireccionVientoController,
   PresionAtmosfericaController,
   RegistroController,
+  UsuarioController,
 } = require("../api/controllers");
 
 // services
@@ -65,6 +68,7 @@ const {
    DireccionVientoService, 
    PresionAtmosfericaService, 
    RegistroService, 
+   UsuarioService, 
    TemperaturaJournalService, 
    NubosidadJournalService, 
    VisibilidadJournalService, 
@@ -74,6 +78,7 @@ const {
    DireccionVientoJournalService, 
    PresionAtmosfericaJournalService, 
    RegistroJournalService, 
+   UsuarioJournalService, 
   } = require("../services");
 
 // repositories
@@ -87,6 +92,7 @@ const {
   DireccionVientoRepository, 
   PresionAtmosfericaRepository, 
   RegistroRepository, 
+  UsuarioRepository, 
   TemperaturaJournalRepository, 
   NubosidadJournalRepository, 
   VisibilidadJournalRepository, 
@@ -96,6 +102,7 @@ const {
   DireccionVientoJournalRepository, 
   PresionAtmosfericaJournalRepository, 
   RegistroJournalRepository, 
+  UsuarioJournalRepository, 
 } = require("../dal/repositories");
 
 // db
@@ -125,9 +132,10 @@ container
     PresionAtmosfericaController: asClass(PresionAtmosfericaController).singleton(),
     PresionAtmosfericaRoutes: asFunction(PresionAtmosfericaRoutes).singleton(),
     RegistroController: asClass(RegistroController).singleton(),
+    UsuarioController: asClass(UsuarioController).singleton(),
     RegistroRoutes: asFunction(RegistroRoutes).singleton(),
     RegistroFechaRoutes: asFunction(RegistroFechaRoutes).singleton(),
-    VerificarUsuarioRoutes: asFunction(VerificarUsuarioRoutes).singleton(),
+    UsuarioRoutes: asFunction(UsuarioRoutes).singleton(),
   })
   .register({
     config: asValue(config)
@@ -145,6 +153,7 @@ container
     DireccionVientoService: asClass(DireccionVientoService).singleton(),
     PresionAtmosfericaService: asClass(PresionAtmosfericaService).singleton(),
     RegistroService: asClass(RegistroService).singleton(),
+    UsuarioService: asClass(UsuarioService).singleton(),
     TemperaturaJournalService: asClass(TemperaturaJournalService).singleton(),
     NubosidadJournalService: asClass(NubosidadJournalService).singleton(),
     VisibilidadJournalService: asClass(VisibilidadJournalService).singleton(),
@@ -154,6 +163,7 @@ container
     DireccionVientoJournalService: asClass(DireccionVientoJournalService).singleton(),
     PresionAtmosfericaJournalService: asClass(PresionAtmosfericaJournalService).singleton(),
     RegistroJournalService: asClass(RegistroJournalService).singleton(),
+    UsuarioJournalService: asClass(UsuarioJournalService).singleton(),
   })
   .register({
     TemperaturaRepository: asClass(TemperaturaRepository).singleton(),
@@ -165,6 +175,7 @@ container
     DireccionVientoRepository: asClass(DireccionVientoRepository).singleton(),
     PresionAtmosfericaRepository: asClass(PresionAtmosfericaRepository).singleton(),
     RegistroRepository: asClass(RegistroRepository).singleton(),
+    UsuarioRepository: asClass(UsuarioRepository).singleton(),
     TemperaturaJournalRepository: asClass(TemperaturaJournalRepository).singleton(),
     NubosidadJournalRepository: asClass(NubosidadJournalRepository).singleton(),
     VisibilidadJournalRepository: asClass(VisibilidadJournalRepository).singleton(),
@@ -174,6 +185,7 @@ container
     DireccionVientoJournalRepository: asClass(DireccionVientoJournalRepository).singleton(),
     PresionAtmosfericaJournalRepository: asClass(PresionAtmosfericaJournalRepository).singleton(),
     RegistroJournalRepository: asClass(RegistroJournalRepository).singleton(),
+    UsuarioJournalRepository: asClass(UsuarioJournalRepository).singleton(),
   })
   .register({
     TemperaturaBusiness: asClass(TemperaturaBusiness).singleton(),
@@ -185,6 +197,7 @@ container
     DireccionVientoBusiness: asClass(DireccionVientoBusiness).singleton(),
     PresionAtmosfericaBusiness: asClass(PresionAtmosfericaBusiness).singleton(),
     RegistroBusiness: asClass(RegistroBusiness).singleton(),
+    UsuarioBusiness: asClass(UsuarioBusiness).singleton(),
     TemperaturaJournalBusiness: asClass(TemperaturaJournalBusiness).singleton(),
     NubosidadJournalBusiness: asClass(NubosidadJournalBusiness).singleton(),
     VisibilidadJournalBusiness: asClass(VisibilidadJournalBusiness).singleton(),
@@ -194,6 +207,7 @@ container
     DireccionVientoJournalBusiness: asClass(DireccionVientoJournalBusiness).singleton(),
     PresionAtmosfericaJournalBusiness: asClass(PresionAtmosfericaJournalBusiness).singleton(),
     RegistroJournalBusiness: asClass(RegistroJournalBusiness).singleton(),
+    UsuarioJournalBusiness: asClass(UsuarioJournalBusiness).singleton(),
   });
 
 module.exports = container;

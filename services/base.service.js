@@ -18,6 +18,11 @@ class BaseService {
     return entity;
   }
 
+  async getbyEmail(email) {
+    const entity = await this._entityBusiness.getbyEmail(email);
+    return entity;
+  }
+
   async create(entity) {
     const createdEntity = await this._entityBusiness.create(entity);
     return createdEntity;

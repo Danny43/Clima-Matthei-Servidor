@@ -224,7 +224,9 @@ class RegistroController {
     let createdTemperatura = await this._temperaturaService.create(temperatura);
 
     temperaturaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    temperaturaJournal.UsuarioId = 1;
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    temperaturaJournal.UsuarioId = payload.subject;
     temperaturaJournal.minima = createdTemperatura.minima;
     temperaturaJournal.maxima = createdTemperatura.maxima;
     let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
