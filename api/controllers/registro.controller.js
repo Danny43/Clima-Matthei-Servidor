@@ -1,4 +1,5 @@
 const mapper = require("automapper-js");
+const jwt = require('jsonwebtoken');
 const { 
   RegistroDto,
   Registro2Dto,
