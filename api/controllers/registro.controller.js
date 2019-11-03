@@ -165,6 +165,7 @@ class RegistroController {
       temperaturaJournal.UsuarioId = payload.subject;
       temperaturaJournal.minima = createdTemperatura.minima;
       temperaturaJournal.maxima = createdTemperatura.maxima;
+      temperaturaJournal.TemperaturaId = createdTemperatura.id;
       let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
 
       const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);
