@@ -1,4 +1,4 @@
-class Usuario {
+class UsuarioJournal {
     id = 0;
     IPUser = "";
     nombres = "";
@@ -11,5 +11,5 @@ class Usuario {
     updatedAt = null;
   }
   
-  module.exports = Usuario;
+  module.exports = UsuarioJournal;
   

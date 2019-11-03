@@ -18,5 +18,5 @@ module.exports = {
   DireccionVientoJournal: require("./direccion-viento-journal"),
   PresionAtmosfericaJournal: require("./presion-atmosferica-journal"),
   RegistroJournal: require("./registro-journal"),
-  UsuarioJournal: require("./usuario-jurnal"),
+  UsuarioJournal: require("./usuario-journal"),
 };
