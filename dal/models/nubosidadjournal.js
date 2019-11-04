@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     h1800: DataTypes.INTEGER
   }, {});
   NubosidadJournal.associate = function(models) {
-    // associations can be defined here
+    NubosidadJournal.belongsTo(models.Usuario);
+    NubosidadJournal.belongsTo(models.Nubosidad);
   };
   return NubosidadJournal;
 };

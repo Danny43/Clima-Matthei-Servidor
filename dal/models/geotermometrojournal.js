@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     cm100: DataTypes.FLOAT
   }, {});
   GeotermometroJournal.associate = function(models) {
-    // associations can be defined here
+    GeotermometroJournal.belongsTo(models.Usuario);
+    GeotermometroJournal.belongsTo(models.Geotermometro);
   };
   return GeotermometroJournal;
 };

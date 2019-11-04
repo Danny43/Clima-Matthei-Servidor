@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     h1800: DataTypes.FLOAT
   }, {});
   PresionAtmosfericaJournal.associate = function(models) {
-    // associations can be defined here
+    PresionAtmosfericaJournal.belongsTo(models.Usuario);
+    PresionAtmosfericaJournal.belongsTo(models.PresionAtmosferica);
   };
   return PresionAtmosfericaJournal;
 };

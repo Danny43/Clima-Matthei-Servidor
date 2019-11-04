@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     evaporamiento: DataTypes.FLOAT
   }, {});
   RegistroJournal.associate = function(models) {
-    // associations can be defined here
+    RegistroJournal.belongsTo(models.Usuario);
+    RegistroJournal.belongsTo(models.Registro);
   };
   return RegistroJournal;
 };

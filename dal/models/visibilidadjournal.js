@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     h1800: DataTypes.INTEGER
   }, {});
   VisibilidadJournal.associate = function(models) {
-    // associations can be defined here
+    VisibilidadJournal.belongsTo(models.Usuario);
+    VisibilidadJournal.belongsTo(models.Visibilidad);
   };
   return VisibilidadJournal;
 };

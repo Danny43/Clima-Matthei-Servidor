@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     h1800: DataTypes.FLOAT
   }, {});
   TermometroHumedoJournal.associate = function(models) {
-    // associations can be defined here
+    TermometroHumedoJournal.belongsTo(models.Usuario);
+    TermometroHumedoJournal.belongsTo(models.TermometroHumedo);
   };
   return TermometroHumedoJournal;
 };
