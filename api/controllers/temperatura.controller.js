@@ -1,4 +1,5 @@
 const mapper = require("automapper-js");
+const jwt = require('jsonwebtoken');
 const { TemperaturaDto, TemperaturaJournalDto } = require("../dtos");
 class TemperaturaController {
   constructor({ TemperaturaService, TemperaturaJournalService }) {
@@ -37,10 +38,19 @@ class TemperaturaController {
   }
 
   async updateTemperatura(req, res) {
+    let temperaturaJournal =  new TemperaturaJournalDto();
     const { body } = req;
     const { id } = req.params;
 
     await this._temperaturaService.update(id, body);
+      temperaturaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      temperaturaJournal.UsuarioId = payload.subject;
+      temperaturaJournal.minima = body.minima;
+      temperaturaJournal.maxima = body.maxima;
+      temperaturaJournal.TemperaturaId = id;
+      let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
     return res.status(204).send();
   }
 
