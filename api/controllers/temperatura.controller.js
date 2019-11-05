@@ -31,6 +31,14 @@ class TemperaturaController {
     let temperaturaJournal =  new TemperaturaJournalDto();
     const { body } = req;
     const createdTemperatura = await this._temperaturaService.create(body);
+    temperaturaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      temperaturaJournal.UsuarioId = payload.subject;
+      temperaturaJournal.minima = createdTemperatura.minima;
+      temperaturaJournal.maxima = createdTemperatura.maxima;
+      temperaturaJournal.TemperaturaId = createdTemperatura.id;
+      let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
     const temperatura = mapper(TemperaturaDto, createdTemperatura);
     return res.status(201).send({
       payload: temperatura

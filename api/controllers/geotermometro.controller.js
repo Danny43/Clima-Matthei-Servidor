@@ -1,8 +1,10 @@
 const mapper = require("automapper-js");
-const { GeotermometroDto } = require("../dtos");
+const jwt = require('jsonwebtoken');
+const { GeotermometroDto, GeotermometroJournalDto } = require("../dtos");
 class GeotermometroController {
-  constructor({ GeotermometroService }) {
+  constructor({ GeotermometroService, GeotermometroJournalService }) {
     this._geotermometroService = GeotermometroService;
+    this._geotermometroJournalService = GeotermometroJournalService;
   }
 
   async getGeotermometros(req, res) {
@@ -26,8 +28,21 @@ class GeotermometroController {
   }
 
   async createGeotermometro(req, res) {
+    let geotermometroJournal = new GeotermometroJournalDto();
     const { body } = req;
     const createdGeotermometro = await this._geotermometroService.create(body);
+    geotermometroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      geotermometroJournal.UsuarioId = payload.subject;
+      geotermometroJournal.cm2 = createdGeotermometro.cm2;
+      geotermometroJournal.cm5 = createdGeotermometro.cm5;
+      geotermometroJournal.cm10 = createdGeotermometro.cm10;
+      geotermometroJournal.cm20 = createdGeotermometro.cm20;
+      geotermometroJournal.cm50 = createdGeotermometro.cm50;
+      geotermometroJournal.cm100 = createdGeotermometro.cm100;
+      geotermometroJournal.id = createdGeotermometro.id;
+      const createdGeotermometroJournal = this._geotermometroJournalService.create(geotermometroJournal);
     const geotermometro = mapper(GeotermometroDto, createdGeotermometro);
     return res.status(201).send({
       payload: geotermometro
@@ -35,10 +50,23 @@ class GeotermometroController {
   }
 
   async updateGeotermometro(req, res) {
+    let geotermometroJournal = new GeotermometroJournalDto();
     const { body } = req;
     const { id } = req.params;
 
     await this._geotermometroService.update(id, body);
+    geotermometroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      geotermometroJournal.UsuarioId = payload.subject;
+      geotermometroJournal.cm2 = body.cm2;
+      geotermometroJournal.cm5 = body.cm5;
+      geotermometroJournal.cm10 = body.cm10;
+      geotermometroJournal.cm20 = body.cm20;
+      geotermometroJournal.cm50 = body.cm50;
+      geotermometroJournal.cm100 = body.cm100;
+      geotermometroJournal.id = createdGeotermometro.id;
+      const createdGeotermometroJournal = this._geotermometroJournalService.create(geotermometroJournal);
     return res.status(204).send();
   }
 
