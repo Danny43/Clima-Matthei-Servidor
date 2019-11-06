@@ -41,7 +41,7 @@ class GeotermometroController {
       geotermometroJournal.cm20 = createdGeotermometro.cm20;
       geotermometroJournal.cm50 = createdGeotermometro.cm50;
       geotermometroJournal.cm100 = createdGeotermometro.cm100;
-      geotermometroJournal.id = createdGeotermometro.id;
+      geotermometroJournal.GeotermometroId = createdGeotermometro.id;
       const createdGeotermometroJournal = this._geotermometroJournalService.create(geotermometroJournal);
     const geotermometro = mapper(GeotermometroDto, createdGeotermometro);
     return res.status(201).send({

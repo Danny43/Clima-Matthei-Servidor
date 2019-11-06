@@ -34,6 +34,7 @@ class DireccionVientoController {
     direccionVientoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
     let token = req.headers.authorization.split(' ')[1];
     let payload = jwt.verify(token, 'secretKey');
+    direccionVientoJournal.UsuarioId = payload.subject;
     direccionVientoJournal.h0830 = createdDireccionViento.h0830;
     direccionVientoJournal.h1400 = createdDireccionViento.h1400;
     direccionVientoJournal.h1800 = createdDireccionViento.h1800;
