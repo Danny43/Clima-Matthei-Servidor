@@ -169,22 +169,22 @@ class RegistroController {
       var visibilidadJournal = new VisibilidadJournalDto();
       var registroJournal = new RegistroJournalDto();
 
-
-      const createdTemperatura = await this._temperaturaService.create(temperatura);
-      temperaturaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
       let token = req.headers.authorization.split(' ')[1];
       let payload = jwt.verify(token, 'secretKey');
-      temperaturaJournal.UsuarioId = payload.subject;
+      const idUser = payload.subject;
+      const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+
+      const createdTemperatura = await this._temperaturaService.create(temperatura);
+      temperaturaJournal.IPUser = IPUser;
+      temperaturaJournal.UsuarioId = idUser;
       temperaturaJournal.minima = createdTemperatura.minima;
       temperaturaJournal.maxima = createdTemperatura.maxima;
       temperaturaJournal.TemperaturaId = createdTemperatura.id;
       let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
 
       const createdDireccionViento = await this._direccionVientoService.create(direccionViento);
-      direccionVientoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-      let token = req.headers.authorization.split(' ')[1];
-      let payload = jwt.verify(token, 'secretKey');
-      direccionVientoJournal.UsuarioId = payload.subject;
+      direccionVientoJournal.IPUser = IPUser;
+      direccionVientoJournal.UsuarioId = idUser;
       direccionVientoJournal.h0830 = createdDireccionViento.h0830;
       direccionVientoJournal.h1400 = createdDireccionViento.h1400;
       direccionVientoJournal.h1800 = createdDireccionViento.h1800;
@@ -192,10 +192,8 @@ class RegistroController {
       let createdDireccionVientoJournal = await this._direccionVientoJournalService.create(direccionVientoJournal);
 
       const createdGeotermometro = await this._geotermometroService.create(geotermometro);
-      geotermometroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-      let token = req.headers.authorization.split(' ')[1];
-      let payload = jwt.verify(token, 'secretKey');
-      geotermometroJournal.UsuarioId = payload.subject;
+      geotermometroJournal.IPUser = IPUser;
+      geotermometroJournal.UsuarioId = idUser;
       geotermometroJournal.cm2 = createdGeotermometro.cm2;
       geotermometroJournal.cm5 = createdGeotermometro.cm5;
       geotermometroJournal.cm10 = createdGeotermometro.cm10;
@@ -206,10 +204,8 @@ class RegistroController {
       const createdGeotermometroJournal = await this._geotermometroJournalService.create(geotermometroJournal);
 
       const createdNubosidad = await this._nubosidadService.create(nubosidad);
-      nubosidadJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-      let token = req.headers.authorization.split(' ')[1];
-      let payload = jwt.verify(token, 'secretKey');
-      nubosidadJournal.UsuarioId = payload.subject;
+      nubosidadJournal.IPUser = IPUser;
+      nubosidadJournal.UsuarioId = idUser;
       nubosidadJournal.h0830 = createdNubosidad.h0830;
       nubosidadJournal.h1400 = createdNubosidad.h1400;
       nubosidadJournal.h1800 = createdNubosidad.h1800;
@@ -217,10 +213,8 @@ class RegistroController {
       const createdNubosidadJournal = await this._nubosidadJournalService.create(nubosidadJournal);
 
       const createdPresionAtmosferica = await this._presionAtmosfericaService.create(presionAtmosferica);
-      presionAtmosfericaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-      let token = req.headers.authorization.split(' ')[1];
-      let payload = jwt.verify(token, 'secretKey');
-      presionAtmosfericaJournal.UsuarioId = payload.subject;
+      presionAtmosfericaJournal.IPUser = IPUser;
+      presionAtmosfericaJournal.UsuarioId = idUser;
       presionAtmosfericaJournal.h0830 = createdPresionAtmosferica.h0830;
       presionAtmosfericaJournal.h1400 = createdPresionAtmosferica.h1400;
       presionAtmosfericaJournal.h1800 = createdPresionAtmosferica.h1800;
@@ -228,10 +222,8 @@ class RegistroController {
       const createdPresionAtmosfericaJournal = await this._presionAtmosfericaJournalervice.create(presionAtmosfericaJournal);
 
       const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);
-      termometroHumedoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-      let token = req.headers.authorization.split(' ')[1];
-      let payload = jwt.verify(token, 'secretKey');
-      termometroHumedoJournal.UsuarioId = payload.subject;
+      termometroHumedoJournal.IPUser = IPUser;
+      termometroHumedoJournal.UsuarioId = idUser;
       termometroHumedoJournal.h0830 = createdTermometroHumedo.h0830;
       termometroHumedoJournal.h1400 = createdTermometroHumedo.h1400;
       termometroHumedoJournal.h1800 = createdTermometroHumedo.h1800;
@@ -239,10 +231,8 @@ class RegistroController {
       const createdTermometroHumedoJournal = await this._termometroHumedoJournalService.create(termometroHumedoJournal);
 
       const createdTermometroSeco = await this._termometroSecoService.create(termometroSeco);
-      termometroSecoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-      let token = req.headers.authorization.split(' ')[1];
-      let payload = jwt.verify(token, 'secretKey');
-      termometroSecoJournal.UsuarioId = payload.subject;
+      termometroSecoJournal.IPUser = IPUser;
+      termometroSecoJournal.UsuarioId = idUser;
       termometroSecoJournal.h0830 = createdTermometroSeco.h0830;
       termometroSecoJournal.h1400 = createdTermometroSeco.h1400;
       termometroSecoJournal.h1800 = createdTermometroSeco.h1800;
@@ -250,10 +240,8 @@ class RegistroController {
       const createdTermometroSecoJournal = await this._termometroSecoJournalService.create(termometroSecoJournal);
 
       const createdVisibilidad = await this._visibilidadService.create(visibilidad);
-      visibilidadJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-      let token = req.headers.authorization.split(' ')[1];
-      let payload = jwt.verify(token, 'secretKey');
-      visibilidadJournal.UsuarioId = payload.subject;
+      visibilidadJournal.IPUser = IPUser;
+      visibilidadJournal.UsuarioId = idUser;
       visibilidadJournal.h0830 = createdVisibilidad.h0830;
       visibilidadJournal.h1400 = createdVisibilidad.h1400;
       visibilidadJournal.h1800 = createdVisibilidad.h1800;
@@ -270,10 +258,8 @@ class RegistroController {
       registro.VisibilidadId = createdVisibilidad.id;
       registro.GeotermometroId = createdGeotermometro.id;
       const createdRegistro = await this._registroService.create(registro);
-      registroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-      let token = req.headers.authorization.split(' ')[1];
-      let payload = jwt.verify(token, 'secretKey');
-      registroJournal.UsuarioId = payload.subject;
+      registroJournal.IPUser = IPUser;
+      registroJournal.UsuarioId = idUser;
       registroJournal.agua_caida = createdRegistro.agua_caida;
       registroJournal.evaporamiento = createdRegistro.evaporamiento;
       registroJournal.horas_sol = createdRegistro.horas_sol;
@@ -375,8 +361,6 @@ class RegistroController {
     
     const createdRegistro = await this._registroService.create(registro);
     registroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    let token = req.headers.authorization.split(' ')[1];
-    let payload = jwt.verify(token, 'secretKey');
     registroJournal.UsuarioId = payload.subject;
     registroJournal.agua_caida = createdRegistro.agua_caida;
     registroJournal.evaporamiento = createdRegistro.evaporamiento;
