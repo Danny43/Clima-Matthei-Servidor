@@ -260,6 +260,7 @@ class RegistroController {
       const createdRegistro = await this._registroService.create(registro);
       registroJournal.IPUser = IPUser;
       registroJournal.UsuarioId = idUser;
+      registroJournal.fecha = createdRegistro.fecha;
       registroJournal.agua_caida = createdRegistro.agua_caida;
       registroJournal.evaporamiento = createdRegistro.evaporamiento;
       registroJournal.horas_sol = createdRegistro.horas_sol;
