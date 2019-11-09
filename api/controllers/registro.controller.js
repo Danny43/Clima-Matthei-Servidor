@@ -219,7 +219,7 @@ class RegistroController {
       presionAtmosfericaJournal.h1400 = createdPresionAtmosferica.h1400;
       presionAtmosfericaJournal.h1800 = createdPresionAtmosferica.h1800;
       presionAtmosfericaJournal.PresionAtmosfericaId = createdPresionAtmosferica.id;
-      const createdPresionAtmosfericaJournal = await this._presionAtmosfericaJournalervice.create(presionAtmosfericaJournal);
+      const createdPresionAtmosfericaJournal = await this._presionAtmosfericaJournalService.create(presionAtmosfericaJournal);
 
       const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);
       termometroHumedoJournal.IPUser = IPUser;
