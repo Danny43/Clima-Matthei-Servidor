@@ -1,8 +1,10 @@
 const mapper = require("automapper-js");
-const { PresionAtmosfericaDto } = require("../dtos");
+const jwt = require('jsonwebtoken');
+const { PresionAtmosfericaDto, PresionAtmosfericaJournalDto } = require("../dtos");
 class PresionAtmosfericaController {
-  constructor({ PresionAtmosfericaService }) {
+  constructor({ PresionAtmosfericaService, PresionAtmosfericaJournalService }) {
     this._presionAtmosfericaService = PresionAtmosfericaService;
+    this._presionAtmosfericaJournalervice = PresionAtmosfericaJournalService;
   }
 
   async getPresionAtmosfericas(req, res) {
@@ -26,8 +28,20 @@ class PresionAtmosfericaController {
   }
 
   async createPresionAtmosferica(req, res) {
+    var presionAtmosfericaJournal = new PresionAtmosfericaJournalDto();
     const { body } = req;
+
     const createdPresionAtmosferica = await this._presionAtmosfericaService.create(body);
+    presionAtmosfericaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    presionAtmosfericaJournal.UsuarioId = payload.subject;
+    presionAtmosfericaJournal.h0830 = createdPresionAtmosferica.h0830;
+    presionAtmosfericaJournal.h1400 = createdPresionAtmosferica.h1400;
+    presionAtmosfericaJournal.h1800 = createdPresionAtmosferica.h1800;
+    presionAtmosfericaJournal.PresionAtmosfericaId = createdPresionAtmosferica.id;
+    const createdPresionAtmosfericaJournal = await this._presionAtmosfericaJournalervice.create(presionAtmosfericaJournal);
+
     const presionAtmosferica = mapper(PresionAtmosfericaDto, createdPresionAtmosferica);
     return res.status(201).send({
       payload: presionAtmosferica
@@ -35,10 +49,21 @@ class PresionAtmosfericaController {
   }
 
   async updatePresionAtmosferica(req, res) {
+    var presionAtmosfericaJournal = new PresionAtmosfericaJournalDto();
     const { body } = req;
     const { id } = req.params;
 
     await this._presionAtmosfericaService.update(id, body);
+    presionAtmosfericaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    presionAtmosfericaJournal.UsuarioId = payload.subject;
+    presionAtmosfericaJournal.h0830 = body.h0830;
+    presionAtmosfericaJournal.h1400 = body.h1400;
+    presionAtmosfericaJournal.h1800 = body.h1800;
+    presionAtmosfericaJournal.PresionAtmosfericaId = id;
+    const createdPresionAtmosfericaJournal = await this._presionAtmosfericaJournalervice.create(presionAtmosfericaJournal);
+
     return res.status(204).send();
   }
 

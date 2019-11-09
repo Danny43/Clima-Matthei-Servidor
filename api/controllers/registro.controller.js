@@ -1,6 +1,6 @@
 const mapper = require("automapper-js");
 const jwt = require('jsonwebtoken');
-const { 
+const {
   RegistroDto,
   Registro2Dto,
   TemperaturaDto,
@@ -20,7 +20,7 @@ const {
   NubosidadJournalDto,
   VisibilidadJournalDto,
   GeotermometroJournalDto,
- } = require("../dtos");
+} = require("../dtos");
 
 class RegistroController {
   constructor({
@@ -72,7 +72,9 @@ class RegistroController {
   }
 
   async getRegistro(req, res) {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     let registro = await this._registroService.get(id);
     let temperatura = await this._temperaturaService.get(registro.TemperaturaId);
     let direccionViento = await this._direccionVientoService.get(registro.DireccionVientoId);
@@ -109,7 +111,9 @@ class RegistroController {
     });
   }
   async getRegistroFecha(req, res) {
-    const { fecha } = req.params;
+    const {
+      fecha
+    } = req.params;
     var r2 = new Registro2Dto();
     let registroF = null;
     registroF = await this._registroService.getbyFecha(fecha);
@@ -156,6 +160,14 @@ class RegistroController {
       var visibilidad = new VisibilidadDto();
       var geotermometro = new GeotermometroDto();
       var temperaturaJournal = new TemperaturaJournalDto();
+      var direccionVientoJournal = new DireccionVientoJournalDto();
+      var geotermometroJournal = new GeotermometroJournalDto();
+      var nubosidadJournal = new NubosidadJournalDto();
+      var presionAtmosfericaJournal = new PresionAtmosfericaJournalDto();
+      var termometroHumedoJournal = new TermometroHumedoJournalDto();
+      var termometroSecoJournal = new TermometroSecoJournalDto();
+      var visibilidadJournal = new VisibilidadJournalDto();
+      var registroJournal = new RegistroJournalDto();
 
 
       const createdTemperatura = await this._temperaturaService.create(temperatura);
@@ -168,13 +180,85 @@ class RegistroController {
       temperaturaJournal.TemperaturaId = createdTemperatura.id;
       let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
 
-      const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);
-      const createdTermometroSeco = await this._termometroSecoService.create(termometroSeco);
-      const createdPresionAtmosferica = await this._presionAtmosfericaService.create(presionAtmosferica);
       const createdDireccionViento = await this._direccionVientoService.create(direccionViento);
-      const createdNubosidad = await this._nubosidadService.create(nubosidad);
-      const createdVisibilidad = await this._visibilidadService.create(visibilidad);
+      direccionVientoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      direccionVientoJournal.UsuarioId = payload.subject;
+      direccionVientoJournal.h0830 = createdDireccionViento.h0830;
+      direccionVientoJournal.h1400 = createdDireccionViento.h1400;
+      direccionVientoJournal.h1800 = createdDireccionViento.h1800;
+      direccionVientoJournal.DireccionVientoId = createdDireccionViento.id;
+      let createdDireccionVientoJournal = await this._direccionVientoJournalService.create(direccionVientoJournal);
+
       const createdGeotermometro = await this._geotermometroService.create(geotermometro);
+      geotermometroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      geotermometroJournal.UsuarioId = payload.subject;
+      geotermometroJournal.cm2 = createdGeotermometro.cm2;
+      geotermometroJournal.cm5 = createdGeotermometro.cm5;
+      geotermometroJournal.cm10 = createdGeotermometro.cm10;
+      geotermometroJournal.cm20 = createdGeotermometro.cm20;
+      geotermometroJournal.cm50 = createdGeotermometro.cm50;
+      geotermometroJournal.cm100 = createdGeotermometro.cm100;
+      geotermometroJournal.GeotermometroId = createdGeotermometro.id;
+      const createdGeotermometroJournal = await this._geotermometroJournalService.create(geotermometroJournal);
+
+      const createdNubosidad = await this._nubosidadService.create(nubosidad);
+      nubosidadJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      nubosidadJournal.UsuarioId = payload.subject;
+      nubosidadJournal.h0830 = createdNubosidad.h0830;
+      nubosidadJournal.h1400 = createdNubosidad.h1400;
+      nubosidadJournal.h1800 = createdNubosidad.h1800;
+      nubosidadJournal.NubosidadId = createdNubosidad.id;
+      const createdNubosidadJournal = await this._nubosidadJournalService.create(nubosidadJournal);
+
+      const createdPresionAtmosferica = await this._presionAtmosfericaService.create(presionAtmosferica);
+      presionAtmosfericaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      presionAtmosfericaJournal.UsuarioId = payload.subject;
+      presionAtmosfericaJournal.h0830 = createdPresionAtmosferica.h0830;
+      presionAtmosfericaJournal.h1400 = createdPresionAtmosferica.h1400;
+      presionAtmosfericaJournal.h1800 = createdPresionAtmosferica.h1800;
+      presionAtmosfericaJournal.PresionAtmosfericaId = createdPresionAtmosferica.id;
+      const createdPresionAtmosfericaJournal = await this._presionAtmosfericaJournalervice.create(presionAtmosfericaJournal);
+
+      const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);
+      termometroHumedoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      termometroHumedoJournal.UsuarioId = payload.subject;
+      termometroHumedoJournal.h0830 = createdTermometroHumedo.h0830;
+      termometroHumedoJournal.h1400 = createdTermometroHumedo.h1400;
+      termometroHumedoJournal.h1800 = createdTermometroHumedo.h1800;
+      termometroHumedoJournal.TermometroHumedoId = createdTermometroHumedo.id;
+      const createdTermometroHumedoJournal = await this._termometroHumedoJournalService.create(termometroHumedoJournal);
+
+      const createdTermometroSeco = await this._termometroSecoService.create(termometroSeco);
+      termometroSecoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      termometroSecoJournal.UsuarioId = payload.subject;
+      termometroSecoJournal.h0830 = createdTermometroSeco.h0830;
+      termometroSecoJournal.h1400 = createdTermometroSeco.h1400;
+      termometroSecoJournal.h1800 = createdTermometroSeco.h1800;
+      termometroSecoJournal.TermometroSecoId = createdTermometroSeco.id;
+      const createdTermometroSecoJournal = await this._termometroSecoJournalService.create(termometroSecoJournal);
+
+      const createdVisibilidad = await this._visibilidadService.create(visibilidad);
+      visibilidadJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      visibilidadJournal.UsuarioId = payload.subject;
+      visibilidadJournal.h0830 = createdVisibilidad.h0830;
+      visibilidadJournal.h1400 = createdVisibilidad.h1400;
+      visibilidadJournal.h1800 = createdVisibilidad.h1800;
+      visibilidadJournal.VisibilidadId = createdVisibilidad.id;
+      const createdVisibilidadJournal = await this._visibilidadJournalService.create(visibilidadJournal);
 
       registro.fecha = fecha;
       registro.TemperaturaId = createdTemperatura.id;
@@ -186,6 +270,15 @@ class RegistroController {
       registro.VisibilidadId = createdVisibilidad.id;
       registro.GeotermometroId = createdGeotermometro.id;
       const createdRegistro = await this._registroService.create(registro);
+      registroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      registroJournal.UsuarioId = payload.subject;
+      registroJournal.agua_caida = createdRegistro.agua_caida;
+      registroJournal.evaporamiento = createdRegistro.evaporamiento;
+      registroJournal.horas_sol = createdRegistro.horas_sol;
+      registroJournal.RegistroId = createdRegistro.id;
+      const createdRegistroJournal = await this._registroJournalService.create(registroJournal);
 
       var reg2 = new Registro2Dto();
       reg2.id = createdRegistro.id;
@@ -215,10 +308,13 @@ class RegistroController {
   }
 
   async createRegistro(req, res) {
-    const { body } = req;
+    const {
+      body
+    } = req;
 
     var reg = new Registro2Dto();
     var registro = new RegistroDto();
+    var registroJournal = new RegistroJournalDto();
     var temperatura = new TemperaturaDto();
     var temperaturaJournal = new TemperaturaJournalDto();
     var termometroHumedo = new TermometroHumedoDto();
@@ -276,7 +372,17 @@ class RegistroController {
     registro.NubosidadId = createdNubosidad.id;
     registro.VisibilidadId = createdVisibilidad.id;
     registro.GeotermometroId = createdGeotermometro.id;
+    
     const createdRegistro = await this._registroService.create(registro);
+    registroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    registroJournal.UsuarioId = payload.subject;
+    registroJournal.agua_caida = createdRegistro.agua_caida;
+    registroJournal.evaporamiento = createdRegistro.evaporamiento;
+    registroJournal.horas_sol = createdRegistro.horas_sol;
+    registroJournal.RegistroId = createdRegistro.id;
+    const createdRegistroJournal = await this._registroJournalService.create(registroJournal);
 
     var reg2 = new Registro2Dto();
     reg2.id = createdRegistro.id;
@@ -300,8 +406,12 @@ class RegistroController {
   }
 
   async updateRegistro(req, res) {
-    const { body } = req;
-    const { id } = req.params;
+    const {
+      body
+    } = req;
+    const {
+      id
+    } = req.params;
 
     await this._registroService.update(id, body);
     return res.status(204).send();
@@ -309,7 +419,9 @@ class RegistroController {
   }
 
   async deleteRegistro(req, res) {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
 
     await this._registroService.delete(id);
     return res.status(204).send();

@@ -1,8 +1,10 @@
 const mapper = require("automapper-js");
-const { TermometroHumedoDto } = require("../dtos");
+const jwt = require('jsonwebtoken');
+const { TermometroHumedoDto, TermometroHumedoJournalDto } = require("../dtos");
 class TermometroHumedoController {
-  constructor({ TermometroHumedoService }) {
+  constructor({ TermometroHumedoService, TermometroHumedoJournalService }) {
     this._termometroHumedoService = TermometroHumedoService;
+    this._termometroHumedoJournalService = TermometroHumedoJournalService;
   }
 
   async getTermometroHumedos(req, res) {
@@ -26,8 +28,20 @@ class TermometroHumedoController {
   }
 
   async createTermometroHumedo(req, res) {
+    var termometroHumedoJournal = new TermometroHumedoJournalDto();
     const { body } = req;
+
     const createdTermometroHumedo = await this._termometroHumedoService.create(body);
+    termometroHumedoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    termometroHumedoJournal.UsuarioId = payload.subject;
+    termometroHumedoJournal.h0830 = createdTermometroHumedo.h0830;
+    termometroHumedoJournal.h1400 = createdTermometroHumedo.h1400;
+    termometroHumedoJournal.h1800 = createdTermometroHumedo.h1800;
+    termometroHumedoJournal.TermometroHumedoId = createdTermometroHumedo.id;
+    const createdTermometroHumedoJournal = this._termometroHumedoJournalService.create(termometroHumedoJournal);
+
     const termometroHumedo = mapper(TermometroHumedoDto, createdTermometroHumedo);
     return res.status(201).send({
       payload: termometroHumedo
@@ -35,10 +49,21 @@ class TermometroHumedoController {
   }
 
   async updateTermometroHumedo(req, res) {
+    var termometroHumedoJournal = new TermometroHumedoJournalDto();
     const { body } = req;
     const { id } = req.params;
 
     await this._termometroHumedoService.update(id, body);
+    termometroHumedoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    termometroHumedoJournal.UsuarioId = payload.subject;
+    termometroHumedoJournal.h0830 = body.h0830;
+    termometroHumedoJournal.h1400 = body.h1400;
+    termometroHumedoJournal.h1800 = body.h1800;
+    termometroHumedoJournal.TermometroHumedoId = id;
+    const createdTermometroHumedoJournal = this._termometroHumedoJournalService.create(termometroHumedoJournal);
+
     return res.status(204).send();
   }
 
