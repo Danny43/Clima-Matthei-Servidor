@@ -1,6 +1,6 @@
 class Temperatura {
   id = 0;
-  minima = null;
+  minima = 0;
   maxima = null;
   createdAt = null;
   updatedAt = null;
