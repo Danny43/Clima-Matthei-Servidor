@@ -1,8 +1,10 @@
 const mapper = require("automapper-js");
-const { TemperaturaDto } = require("../dtos");
+const jwt = require('jsonwebtoken');
+const { TemperaturaDto, TemperaturaJournalDto } = require("../dtos");
 class TemperaturaController {
-  constructor({ TemperaturaService }) {
+  constructor({ TemperaturaService, TemperaturaJournalService }) {
     this._temperaturaService = TemperaturaService;
+    this._temperaturaJournalService = TemperaturaJournalService;
   }
 
   async getTemperaturas(req, res) {
@@ -26,8 +28,17 @@ class TemperaturaController {
   }
 
   async createTemperatura(req, res) {
+    let temperaturaJournal =  new TemperaturaJournalDto();
     const { body } = req;
     const createdTemperatura = await this._temperaturaService.create(body);
+    temperaturaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      temperaturaJournal.UsuarioId = payload.subject;
+      temperaturaJournal.minima = createdTemperatura.minima;
+      temperaturaJournal.maxima = createdTemperatura.maxima;
+      temperaturaJournal.TemperaturaId = createdTemperatura.id;
+      let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
     const temperatura = mapper(TemperaturaDto, createdTemperatura);
     return res.status(201).send({
       payload: temperatura
@@ -35,10 +46,19 @@ class TemperaturaController {
   }
 
   async updateTemperatura(req, res) {
+    let temperaturaJournal =  new TemperaturaJournalDto();
     const { body } = req;
     const { id } = req.params;
 
     await this._temperaturaService.update(id, body);
+      temperaturaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      let token = req.headers.authorization.split(' ')[1];
+      let payload = jwt.verify(token, 'secretKey');
+      temperaturaJournal.UsuarioId = payload.subject;
+      temperaturaJournal.minima = body.minima;
+      temperaturaJournal.maxima = body.maxima;
+      temperaturaJournal.TemperaturaId = id;
+      let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
     return res.status(204).send();
   }
 

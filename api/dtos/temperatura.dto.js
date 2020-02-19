@@ -1,7 +1,7 @@
 class TemperaturaDto {
   id = 0;
   minima = null;
-  maxima = 0;
+  maxima = null;
   createdAt = null;
   updatedAt = null;
 }

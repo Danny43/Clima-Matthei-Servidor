@@ -19,5 +19,8 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^1.6.5",
     "sequelize": "^5.8.6"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^5.5.1"
   }
 }

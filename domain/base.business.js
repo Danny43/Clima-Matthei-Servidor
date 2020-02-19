@@ -23,6 +23,12 @@ class BaseBusiness {
     return mapper(this.entityToMap, entity.toJSON());
   }
 
+  async getbyEmail(email) {
+    const entity = await this._entityRepository.getbyEmail(email);
+    if (!entity) return null;
+    return mapper(this.entityToMap, entity.toJSON());
+  }
+
   async create(entity) {
     entity = mapper(this.entityToMap, entity);
     const createdEntity = await this._entityRepository.create(entity);
