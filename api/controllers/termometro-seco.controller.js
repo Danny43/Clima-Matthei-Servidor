@@ -21,9 +21,7 @@ class TermometroSecoController {
     if (!termometroSeco) {
       return res.status(404).send();
     }
-    console.log('el objeto se ve asi antes del mappeo: '+termometroSeco);
    // termometroSeco = mapper(TermometroSecoDto, termometroSeco);
-    console.log('el objeto se ve asi despues del mappeo: '+termometroSeco);
     return res.send({
       payload: termometroSeco
     });
