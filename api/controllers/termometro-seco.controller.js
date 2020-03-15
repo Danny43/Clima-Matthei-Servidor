@@ -21,8 +21,21 @@ class TermometroSecoController {
     if (!termometroSeco) {
       return res.status(404).send();
     }else{
+      let testTerm = new TermometroSecoDto();
+      testTerm.id = id;
+    if(termometroSeco.h0830 === 0){
+      testTerm.h0830 = 0;
+    }else if(termometroSeco.h0830 === null){
+      testTerm.h0830 = null;
+    }else{
+      testTerm.h0830 = termometroSeco.h0830;
+    }
+    testTerm.h1400 = termometroSeco.h1400;
+    testTerm.h1800 = termometroSeco.h1800;
+    testTerm.createdAt = termometroSeco.createdAt;
+    testTerm.updatedAt = termometroSecos.updatedAt;
       return res.send({
-        payload: termometroSeco
+        payload: testTerm
       });
     }
    // termometroSeco = mapper(TermometroSecoDto, termometroSeco);
