@@ -20,11 +20,12 @@ class TermometroSecoController {
     let termometroSeco = await this._termometroSecoService.get(id);
     if (!termometroSeco) {
       return res.status(404).send();
+    }else{
+      return res.send({
+        payload: termometroSeco
+      });
     }
    // termometroSeco = mapper(TermometroSecoDto, termometroSeco);
-    return res.send({
-      payload: termometroSeco
-    });
   }
 
   async createTermometroSeco(req, res) {
