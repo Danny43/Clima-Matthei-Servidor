@@ -31,7 +31,7 @@ class BaseRepository {
   update(id, entity) {
     delete entity.createdAt;
     delete entity.updatedAt;
-    console.log("Objeto a guadar en la BD: " + entity);
+    console.log("Objeto a guadar en la BD: " + entity.h0830);
     return this._db[this.entity].update(entity, { where: { id } });
   }
 
