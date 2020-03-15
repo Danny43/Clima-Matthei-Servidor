@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       h0830: {
+        allowNull: true,
         type: Sequelize.FLOAT
       },
       h1400: {
