@@ -56,7 +56,7 @@ class TermometroSecoController {
 
     let testTerm = new TermometroSecoDto();
     testTerm.id = id;
-    testTerm.h0830 = body.h0830;
+    testTerm.h0830 = body.h0830 ? body.h0830 : null;
     testTerm.h1400 = body.h1400;
     testTerm.h1800 = body.h1800;
 
