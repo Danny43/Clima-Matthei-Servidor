@@ -54,7 +54,13 @@ class TermometroSecoController {
     const { body } = req;
     const { id } = req.params;
 
-    await this._termometroSecoService.update(id, body);
+    let testTerm = new TermometroSecoDto();
+    testTerm.id = id;
+    testTerm.h0830 = body.h0830;
+    testTerm.h1400 = body.h1400;
+    testTerm.h1800 = body.h1800;
+
+    await this._termometroSecoService.update(id, testTerm);
     termometroSecoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
     let token = req.headers.authorization.split(' ')[1];
     let payload = jwt.verify(token, 'secretKey');
