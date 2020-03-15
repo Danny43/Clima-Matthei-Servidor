@@ -21,7 +21,9 @@ class TermometroSecoController {
     if (!termometroSeco) {
       return res.status(404).send();
     }
+    console.log(termometroSeco);
     termometroSeco = mapper(TermometroSecoDto, termometroSeco);
+    console.log(termometroSeco);
     return res.send({
       payload: termometroSeco
     });
