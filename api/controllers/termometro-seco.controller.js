@@ -33,7 +33,7 @@ class TermometroSecoController {
     testTerm.h1400 = termometroSeco.h1400;
     testTerm.h1800 = termometroSeco.h1800;
     testTerm.createdAt = termometroSeco.createdAt;
-    testTerm.updatedAt = termometroSecos.updatedAt;
+    testTerm.updatedAt = termometroSeco.updatedAt;
       return res.send({
         payload: testTerm
       });
