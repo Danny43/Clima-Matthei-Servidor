@@ -29,7 +29,6 @@ class BaseService {
   }
 
   async update(id, entity) {
-    console.log("valor a guardar en la capa de servicios: " + entity.h0830);
     const updatedEntity = await this._entityBusiness.update(id, entity);
     return updatedEntity;
   }

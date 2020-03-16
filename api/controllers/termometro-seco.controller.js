@@ -67,21 +67,7 @@ class TermometroSecoController {
     const { body } = req;
     const { id } = req.params;
 
-    console.log("valor a guardar en la capa de controlador: " + body.h0830);
-
-    let testTerm = new TermometroSecoDto();
-    testTerm.id = id;
-    if(body.h0830 === 0){
-      testTerm.h0830 = 0;
-    }else if(body.h0830 === null){
-      testTerm.h0830 = null;
-    }else{
-      testTerm.h0830 = body.h0830;
-    }
-    testTerm.h1400 = body.h1400;
-    testTerm.h1800 = body.h1800;
-
-    await this._termometroSecoService.update(id, testTerm);
+    await this._termometroSecoService.update(id, body);
     termometroSecoJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
     let token = req.headers.authorization.split(' ')[1];
     let payload = jwt.verify(token, 'secretKey');
