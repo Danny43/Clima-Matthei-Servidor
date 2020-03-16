@@ -37,7 +37,7 @@ class BaseBusiness {
   async update(id, entity) {
     entity.id = id;
     const updatedEntity = await this._entityRepository.update(id, entity);
-    return updatedEntity.toJSON();
+    return updatedEntity;
   }
 
   async delete(id) {
