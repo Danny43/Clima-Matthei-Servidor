@@ -67,6 +67,8 @@ class TermometroSecoController {
     const { body } = req;
     const { id } = req.params;
 
+    console.log("valor a guardar en la capa de controlador: " + body.h0830);
+
     let testTerm = new TermometroSecoDto();
     testTerm.id = id;
     if(body.h0830 === 0){
