@@ -37,7 +37,9 @@ class BaseBusiness {
 
   async update(id, entity) {
     entity.id = id;
+    console.log("valor a guardar en la capa de dominio antes del mappeo: " + entity.h0830);
     entity = mapper(this.entityToMap, entity);
+    console.log("valor a guardar en la capa de dominio despues del mappeo: " + entity.h0830);
     const updatedEntity = await this._entityRepository.update(id, entity);
     return mapper(this.entityToMap, updatedEntity);
   }
