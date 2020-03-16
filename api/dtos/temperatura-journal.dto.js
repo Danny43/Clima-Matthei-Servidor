@@ -2,9 +2,9 @@ class TemperaturaJournalDto {
     id = 0;
     IPUser = null;
     minima = null;
-    maxima = 0;
-    UsuarioId = 0;
-    TemperaturaId = 0;
+    maxima = null;
+    UsuarioId = null;
+    TemperaturaId = null;
     createdAt = null;
     updatedAt = null;
   }
