@@ -65,7 +65,7 @@ class GeotermometroController {
       geotermometroJournal.cm20 = body.cm20;
       geotermometroJournal.cm50 = body.cm50;
       geotermometroJournal.cm100 = body.cm100;
-      geotermometroJournal.GeotermometroId = createdGeotermometro.id;
+      geotermometroJournal.GeotermometroId = id;
       const createdGeotermometroJournal = await this._geotermometroJournalService.create(geotermometroJournal);
     return res.status(204).send();
   }
