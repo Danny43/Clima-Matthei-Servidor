@@ -20,25 +20,24 @@ class BaseBusiness {
   async getbyFecha(fecha) {
     const entity = await this._entityRepository.getbyFecha(fecha);
     if (!entity) return null;
-    return mapper(this.entityToMap, entity.toJSON());
+    return entity.toJSON();
   }
 
   async getbyEmail(email) {
     const entity = await this._entityRepository.getbyEmail(email);
     if (!entity) return null;
-    return mapper(this.entityToMap, entity.toJSON());
+    return entity.toJSON();
   }
 
   async create(entity) {
-    entity = mapper(this.entityToMap, entity);
     const createdEntity = await this._entityRepository.create(entity);
-    return mapper(this.entityToMap, createdEntity.toJSON());
+    return createdEntity.toJSON();
   }
 
   async update(id, entity) {
     entity.id = id;
     const updatedEntity = await this._entityRepository.update(id, entity);
-    return mapper(this.entityToMap, updatedEntity);
+    return updatedEntity.toJSON();
   }
 
   async delete(id) {
