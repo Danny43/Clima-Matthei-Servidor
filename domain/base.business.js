@@ -20,6 +20,7 @@ class BaseBusiness {
   async getbyFecha(fecha) {
     const entity = await this._entityRepository.getbyFecha(fecha);
     if (!entity) return null;
+    console.log("valor de la entidad en agua caida en capa de dominio: " + entity.agua_caida);
     return entity;
   }
 
