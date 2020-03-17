@@ -15,6 +15,7 @@ class BaseService {
 
   async getbyFecha(fecha) {
     const entity = await this._entityBusiness.getbyFecha(fecha);
+    console.log("valor de la entidad en agua caida en capa de servicio: " + entity.agua_caida);
     return entity;
   }
 
