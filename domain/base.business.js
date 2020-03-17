@@ -20,7 +20,7 @@ class BaseBusiness {
   async getbyFecha(fecha) {
     const entity = await this._entityRepository.getbyFecha(fecha);
     if (!entity) return null;
-    return entity.toJSON();
+    return entity;
   }
 
   async getbyEmail(email) {
