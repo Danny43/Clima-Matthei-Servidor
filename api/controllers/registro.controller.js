@@ -117,6 +117,8 @@ class RegistroController {
     var r2 = new Registro2Dto();
     let registroF = null;
     registroF = await this._registroService.getbyFecha(fecha);
+    console.log("valor de la entidad en agua caida en capa API: " + registroF.agua_caida);
+
     if (registroF != null) {
 
       let temperaturaF = await this._temperaturaService.get(registroF.TemperaturaId);
@@ -284,11 +286,11 @@ class RegistroController {
 
       const registro2 = mapper(Registro2Dto, reg2);
       return res.status(201).send({
-        payload: registro2
+        payload: reg2
       });
 
     }
-    r2 = mapper(Registro2Dto, r2);
+    // r2 = mapper(Registro2Dto, r2);
     return res.send({
       payload: r2
     });
