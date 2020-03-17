@@ -117,8 +117,6 @@ class RegistroController {
     var r2 = new Registro2Dto();
     let registroF = null;
     registroF = await this._registroService.getbyFecha(fecha);
-    console.log("valor de la entidad en agua caida en capa API: " + registroF.agua_caida);
-
     if (registroF != null) {
 
       let temperaturaF = await this._temperaturaService.get(registroF.TemperaturaId);
