@@ -21,7 +21,6 @@ class GeotermometroController {
     if (!geotermometro) {
       return res.status(404).send();
     }
-    geotermometro = mapper(GeotermometroDto, geotermometro);
     return res.send({
       payload: geotermometro
     });
@@ -43,9 +42,8 @@ class GeotermometroController {
       geotermometroJournal.cm100 = createdGeotermometro.cm100;
       geotermometroJournal.GeotermometroId = createdGeotermometro.id;
       const createdGeotermometroJournal = await this._geotermometroJournalService.create(geotermometroJournal);
-    const geotermometro = mapper(GeotermometroDto, createdGeotermometro);
     return res.status(201).send({
-      payload: geotermometro
+      payload: createdGeotermometro
     });
   }
 

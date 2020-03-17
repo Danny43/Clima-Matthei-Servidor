@@ -21,7 +21,6 @@ class TermometroHumedoController {
     if (!termometroHumedo) {
       return res.status(404).send();
     }
-    termometroHumedo = mapper(TermometroHumedoDto, termometroHumedo);
     return res.send({
       payload: termometroHumedo
     });
@@ -41,10 +40,8 @@ class TermometroHumedoController {
     termometroHumedoJournal.h1800 = createdTermometroHumedo.h1800;
     termometroHumedoJournal.TermometroHumedoId = createdTermometroHumedo.id;
     const createdTermometroHumedoJournal = this._termometroHumedoJournalService.create(termometroHumedoJournal);
-
-    const termometroHumedo = mapper(TermometroHumedoDto, createdTermometroHumedo);
     return res.status(201).send({
-      payload: termometroHumedo
+      payload: createdTermometroHumedo
     });
   }
 

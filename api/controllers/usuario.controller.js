@@ -21,7 +21,6 @@ class UsuarioController {
     if (!usuario) {
       return res.status(404).send();
     }
-    usuario = mapper(UsuarioDto, usuario);
     return res.send({
       payload: usuario
     });

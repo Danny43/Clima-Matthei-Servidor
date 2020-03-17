@@ -105,7 +105,6 @@ class RegistroController {
     if (!r2) {
       return res.status(404).send();
     }
-    r2 = mapper(Registro2Dto, r2);
     return res.send({
       payload: r2
     });
@@ -281,14 +280,11 @@ class RegistroController {
       reg2.Nubosidad = createdNubosidad;
       reg2.Visibilidad = createdVisibilidad;
       reg2.Geotermometro = createdGeotermometro;
-
-      const registro2 = mapper(Registro2Dto, reg2);
       return res.status(201).send({
         payload: reg2
       });
 
     }
-    // r2 = mapper(Registro2Dto, r2);
     return res.send({
       payload: r2
     });
@@ -383,10 +379,8 @@ class RegistroController {
     reg2.Nubosidad = createdNubosidad;
     reg2.Visibilidad = createdVisibilidad;
     reg2.Geotermometro = createdGeotermometro;
-
-    const registro2 = mapper(Registro2Dto, reg2);
     return res.status(201).send({
-      payload: registro2
+      payload: reg2
     });
   }
 

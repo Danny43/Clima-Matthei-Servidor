@@ -21,7 +21,6 @@ class TemperaturaController {
     if (!temperatura) {
       return res.status(404).send();
     }
-    temperatura = mapper(TemperaturaDto, temperatura);
     return res.send({
       payload: temperatura
     });
@@ -39,9 +38,8 @@ class TemperaturaController {
       temperaturaJournal.maxima = createdTemperatura.maxima;
       temperaturaJournal.TemperaturaId = createdTemperatura.id;
       let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
-    const temperatura = mapper(TemperaturaDto, createdTemperatura);
     return res.status(201).send({
-      payload: temperatura
+      payload: createdTemperatura
     });
   }
 

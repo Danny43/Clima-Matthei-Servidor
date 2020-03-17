@@ -22,7 +22,6 @@ class VisibilidadController {
     if (!visibilidad) {
       return res.status(404).send();
     }
-    visibilidad = mapper(VisibilidadDto, visibilidad);
     return res.send({
       payload: visibilidad
     });
@@ -42,10 +41,8 @@ class VisibilidadController {
     visibilidadJournal.h1800 = createdVisibilidad.h1800;
     visibilidadJournal.VisibilidadId = createdVisibilidad.id;
     const createdVisibilidadJournal = await this._visibilidadJournalService.create(visibilidadJournal);
-
-    const visibilidad = mapper(VisibilidadDto, createdVisibilidad);
     return res.status(201).send({
-      payload: visibilidad
+      payload: createdVisibilidad
     });
   }
 

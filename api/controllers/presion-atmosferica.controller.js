@@ -21,7 +21,6 @@ class PresionAtmosfericaController {
     if (!presionAtmosferica) {
       return res.status(404).send();
     }
-    presionAtmosferica = mapper(PresionAtmosfericaDto, presionAtmosferica);
     return res.send({
       payload: presionAtmosferica
     });
@@ -41,10 +40,8 @@ class PresionAtmosfericaController {
     presionAtmosfericaJournal.h1800 = createdPresionAtmosferica.h1800;
     presionAtmosfericaJournal.PresionAtmosfericaId = createdPresionAtmosferica.id;
     const createdPresionAtmosfericaJournal = await this._presionAtmosfericaJournalervice.create(presionAtmosfericaJournal);
-
-    const presionAtmosferica = mapper(PresionAtmosfericaDto, createdPresionAtmosferica);
     return res.status(201).send({
-      payload: presionAtmosferica
+      payload: createdPresionAtmosferica
     });
   }
 
