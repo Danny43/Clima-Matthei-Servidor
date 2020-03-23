@@ -189,7 +189,8 @@ class RegistroController {
       var visibilidadJournal = new VisibilidadJournalDto();
       var registroJournal = new RegistroJournalDto();
 
-      let token = req.headers.authorization.split(' ')[1];
+      try{
+        let token = req.headers.authorization.split(' ')[1];
       let payload = jwt.verify(token, 'secretKey');
       const idUser = payload.subject;
       const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
@@ -304,6 +305,10 @@ class RegistroController {
       return res.status(201).send({
         payload: reg2
       });
+      }catch(e){
+        return res.status(404).send();
+      }
+      
 
     }
     return res.send({
