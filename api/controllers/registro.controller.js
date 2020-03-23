@@ -115,10 +115,6 @@ class RegistroController {
     } = req.params;
     var r2 = new Registro2Dto();
     let registroF = null;
-    var dateReq = new Date(fecha);
-    dateReq.setHours(0,0,0,0);
-    dateReq.setUTCHours(0,0,0,0);
-
 
     var fechaPicker = new Date(fecha)
     var fechaString = String(fechaPicker.getFullYear()) + "-";
@@ -134,10 +130,6 @@ class RegistroController {
     }
     fechaString += "00:00:00Z";
     var fechaBusqueda = new Date(fechaString);
-
-
-    // var fechaString = `${dateReq.getFullYear()}`;
-    // fechaString += "-"+`${dateReq.getMonth()}`;
 
 
     registroF = await this._registroService.getbyFecha(fechaBusqueda);
