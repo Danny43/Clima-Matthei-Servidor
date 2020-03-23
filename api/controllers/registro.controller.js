@@ -117,6 +117,7 @@ class RegistroController {
     let registroF = null;
     var dateReq = new Date(fecha);
     dateReq.setHours(0,0,0,0);
+    dateReq.setUTCHours(0,0,0,0);
     // var fechaString = `${dateReq.getFullYear()}`;
     // fechaString += "-"+`${dateReq.getMonth()}`;
     registroF = await this._registroService.getbyFecha(fecha);
