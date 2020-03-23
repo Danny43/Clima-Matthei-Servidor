@@ -273,7 +273,7 @@ class RegistroController {
       visibilidadJournal.VisibilidadId = createdVisibilidad.id;
       const createdVisibilidadJournal = await this._visibilidadJournalService.create(visibilidadJournal);
 
-      registro.fecha = fecha;
+      registro.fecha = fechaBusqueda;
       registro.TemperaturaId = createdTemperatura.id;
       registro.TermometroHumedoId = createdTermometroHumedo.id;
       registro.TermometroSecoId = createdTermometroSeco.id;
