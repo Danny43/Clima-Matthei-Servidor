@@ -118,25 +118,29 @@ class RegistroController {
     var dateReq = new Date(fecha);
     dateReq.setHours(0,0,0,0);
     dateReq.setUTCHours(0,0,0,0);
-    // var fechaPicker = new Date(fecha)
-    // var fechaString = String(fechaPicker.getFullYear()) + "-";
-    // if (fechaPicker.getMonth() + 1 < 10) {
-    //   fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
-    // } else {
-    //   fechaString += String(fechaPicker.getMonth() + 1) + "-";
-    // }
-    // if (fechaPicker.getDate() < 10) {
-    //   fechaString += "0" + String(fechaPicker.getDate()) + "T";
-    // } else {
-    //   fechaString += String(fechaPicker.getDate()) + "T";
-    // }
-    // fechaString += "00:00:00Z";
-    // var fechaBusqueda = new Date(fechaString);
+
+
+    var fechaPicker = new Date(fecha)
+    var fechaString = String(fechaPicker.getFullYear()) + "-";
+    if (fechaPicker.getMonth() + 1 < 10) {
+      fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
+    } else {
+      fechaString += String(fechaPicker.getMonth() + 1) + "-";
+    }
+    if (fechaPicker.getDate() < 10) {
+      fechaString += "0" + String(fechaPicker.getDate()) + "T";
+    } else {
+      fechaString += String(fechaPicker.getDate()) + "T";
+    }
+    fechaString += "00:00:00Z";
+    var fechaBusqueda = new Date(fechaString);
 
 
     // var fechaString = `${dateReq.getFullYear()}`;
     // fechaString += "-"+`${dateReq.getMonth()}`;
-    registroF = await this._registroService.getbyFecha(dateReq);
+
+
+    registroF = await this._registroService.getbyFecha(fechaBusqueda);
     if (registroF != null) {
 
       let temperaturaF = await this._temperaturaService.get(registroF.TemperaturaId);
