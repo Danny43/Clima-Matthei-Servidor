@@ -21,6 +21,7 @@ const {
   VisibilidadJournalDto,
   GeotermometroJournalDto,
 } = require("../dtos");
+let ConvertENERO = require("../converts/convertEnero");
 
 class RegistroController {
   constructor({
@@ -309,6 +310,33 @@ class RegistroController {
     }
     return res.send({
       payload: r2
+    });
+  }
+
+  async registrarExcel(req, res){
+    let file = req.files.excel;
+    let filename = file.name;
+    file.mv('../excel/'+filename,(err)=>{
+      if(err){
+        return res.sendStatus(500);
+      }else{
+        // var enero = new convertEnero(filename);
+        // enero.getRegistros().then( r => {
+        //     for (let index = 0; index < r.length; index++) {
+        //         const registro = r[index];
+        //         // console.log(registro);
+        //     }
+        // });
+
+        var enero =  new ConvertENERO(filename);
+        enero.getRegistros().then( r => {
+            for (let index = 0; index < r.length; index++) {
+                const registro = r[index];
+                console.log(registro);
+            }
+            return res.sendStatus(201);
+        });
+      }
     });
   }
 
