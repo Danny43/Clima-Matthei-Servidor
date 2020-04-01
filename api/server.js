@@ -17,6 +17,7 @@ class Server {
     this._express.use(cors());
     this._express.use(allowCrossDomain);
     this._express.use(upload());
+    this._express.use(express.bodyParser({limit: '50mb'}));
   }
 
   start() {

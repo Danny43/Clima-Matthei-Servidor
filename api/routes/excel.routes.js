@@ -2,7 +2,6 @@ const { Router } = require("express");
 
 module.exports = function({ RegistroController }) {
   const router = Router();
-  router.bodyParser({limit: '50mb'});
 
 //   router.get("/", RegistroController.getExcels.bind(RegistroController));
 //   router.get("/:id", RegistroController.getExcel.bind(RegistroController));
