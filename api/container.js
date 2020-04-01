@@ -137,7 +137,7 @@ container
     RegistroRoutes: asFunction(RegistroRoutes).singleton(),
     RegistroFechaRoutes: asFunction(RegistroFechaRoutes).singleton(),
     UsuarioRoutes: asFunction(UsuarioRoutes).singleton(),
-    ExcelRoutes: asFunction().singleton(),
+    ExcelRoutes: asFunction(ExcelRoutes).singleton(),
   })
   .register({
     config: asValue(config)
