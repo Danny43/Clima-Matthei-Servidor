@@ -566,7 +566,7 @@ class RegistroController {
                                   registro.VisibilidadId = createdVisibilidad.id;
                                   registro.GeotermometroId = createdGeotermometro.id;
 
-                                  const createdRegistro;
+                                  var createdRegistro;
                                   this._registroService.create(registro).then(re => {
                                     registroJournal.IPUser = IPUser;
                                     registroJournal.UsuarioId = idUser;
