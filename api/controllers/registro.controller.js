@@ -352,59 +352,59 @@ class RegistroController {
             var fechaBusqueda = new Date(fechaString);
 
             var registroF;
-            this._registroService.getbyFecha(fechaBusqueda).then( rf => {
+            this._registroService.getbyFecha(fechaBusqueda).then(rf => {
               registroF = rf;
 
               if (registroF != null) {
-  
+
                 let updatedTemperaturaF;
-                this._temperaturaService.update(registroF.TemperaturaId, registroExcel.Temperatura).then( tem => {
+                this._temperaturaService.update(registroF.TemperaturaId, registroExcel.Temperatura).then(tem => {
                   updatedTemperaturaF = tem;
                 });
-  
+
                 let updatedDireccionVientoF;
-                this._direccionVientoService.update(registroF.DireccionVientoId, registroExcel.DireccionViento).then( dir => {
+                this._direccionVientoService.update(registroF.DireccionVientoId, registroExcel.DireccionViento).then(dir => {
                   updatedDireccionVientoF = dir;
                 });
-  
-                let updatedTermometroSecoF; 
-                this._termometroSecoService.update(registroF.TermometroSecoId, registroExcel.TermometroSeco).then( temSec => {
+
+                let updatedTermometroSecoF;
+                this._termometroSecoService.update(registroF.TermometroSecoId, registroExcel.TermometroSeco).then(temSec => {
                   updatedTermometroSecoF = temSec;
                 });
-  
+
                 let updatedTermometroHumedoF;
-                this._termometroHumedoService.update(registroF.TermometroHumedoId, registroExcel.TermometroHumedo).then( temHum =>{
+                this._termometroHumedoService.update(registroF.TermometroHumedoId, registroExcel.TermometroHumedo).then(temHum => {
                   updatedTermometroSecoF = temHum;
                 });
-  
+
                 let updatedPresionAtmosfericaF;
-                this._presionAtmosfericaService.update(registroF.PresionAtmosfericaId, registroExcel.PresionAtmosferica).then( presAt => {
+                this._presionAtmosfericaService.update(registroF.PresionAtmosfericaId, registroExcel.PresionAtmosferica).then(presAt => {
                   updatedPresionAtmosfericaF = presAt;
                 });
-  
+
                 let updatedNubosidadF;
-                this._nubosidadService.update(registroF.NubosidadId, registroExcel.Nubosidad).then( nub => {
+                this._nubosidadService.update(registroF.NubosidadId, registroExcel.Nubosidad).then(nub => {
                   updatedNubosidadF = nub;
                 });
-  
+
                 let updatedVisibilidadF;
-                this._visibilidadService.update(registroF.VisibilidadId, registroExcel.Visibilidad).then( vis => {
+                this._visibilidadService.update(registroF.VisibilidadId, registroExcel.Visibilidad).then(vis => {
                   updatedVisibilidadF = vis;
                 });
-  
+
                 let updatedGeotermometroF;
-                this._geotermometroService.update(registroF.GeotermometroId, registroExcel.Geotermometro).then( geo => {
+                this._geotermometroService.update(registroF.GeotermometroId, registroExcel.Geotermometro).then(geo => {
                   updatedGeotermometroF = updatedGeotermometroF;
                 });
-  
+
                 registroF.agua_caida = registroExcel.agua_caida;
                 registroF.horas_sol = registroExcel.horas_sol;
                 registroF.evaporamiento = registroExcel.evaporamiento;
                 let updatedRegistroF;
-                this._registroService.update(registroF.id, registroF).then( regis => {
+                this._registroService.update(registroF.id, registroF).then(regis => {
                   updatedRegistroF = regis;
                 });
-  
+
                 r2.id = registroF.id;
                 r2.fecha = registroF.fecha;
                 r2.agua_caida = registroF.agua_caida;
@@ -420,11 +420,11 @@ class RegistroController {
                 r2.Nubosidad = nubosidadF;
                 r2.Visibilidad = visibilidadF;
                 r2.Geotermometro = geotermometroF;
-  
+
               }
-  
+
               if (r2.id == 0) {
-  
+
                 var registro = new RegistroDto();
                 var temperatura = registroExcel.Temperatura;
                 var termometroHumedo = registroExcel.TermometroHumedo;
@@ -443,13 +443,13 @@ class RegistroController {
                 var termometroSecoJournal = new TermometroSecoJournalDto();
                 var visibilidadJournal = new VisibilidadJournalDto();
                 var registroJournal = new RegistroJournalDto();
-  
+
                 try {
                   let token = req.headers.authorization.split(' ')[1];
                   let payload = jwt.verify(token, 'secretKey');
                   const idUser = payload.subject;
                   const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-  
+
                   const createdTemperatura = await this._temperaturaService.create(temperatura);
                   temperaturaJournal.IPUser = IPUser;
                   temperaturaJournal.UsuarioId = idUser;
@@ -457,7 +457,7 @@ class RegistroController {
                   temperaturaJournal.maxima = createdTemperatura.maxima;
                   temperaturaJournal.TemperaturaId = createdTemperatura.id;
                   let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
-  
+
                   const createdDireccionViento = await this._direccionVientoService.create(direccionViento);
                   direccionVientoJournal.IPUser = IPUser;
                   direccionVientoJournal.UsuarioId = idUser;
@@ -466,7 +466,7 @@ class RegistroController {
                   direccionVientoJournal.h1800 = createdDireccionViento.h1800;
                   direccionVientoJournal.DireccionVientoId = createdDireccionViento.id;
                   let createdDireccionVientoJournal = await this._direccionVientoJournalService.create(direccionVientoJournal);
-  
+
                   const createdGeotermometro = await this._geotermometroService.create(geotermometro);
                   geotermometroJournal.IPUser = IPUser;
                   geotermometroJournal.UsuarioId = idUser;
@@ -478,7 +478,7 @@ class RegistroController {
                   geotermometroJournal.cm100 = createdGeotermometro.cm100;
                   geotermometroJournal.GeotermometroId = createdGeotermometro.id;
                   const createdGeotermometroJournal = await this._geotermometroJournalService.create(geotermometroJournal);
-  
+
                   const createdNubosidad = await this._nubosidadService.create(nubosidad);
                   nubosidadJournal.IPUser = IPUser;
                   nubosidadJournal.UsuarioId = idUser;
@@ -487,7 +487,7 @@ class RegistroController {
                   nubosidadJournal.h1800 = createdNubosidad.h1800;
                   nubosidadJournal.NubosidadId = createdNubosidad.id;
                   const createdNubosidadJournal = await this._nubosidadJournalService.create(nubosidadJournal);
-  
+
                   const createdPresionAtmosferica = await this._presionAtmosfericaService.create(presionAtmosferica);
                   presionAtmosfericaJournal.IPUser = IPUser;
                   presionAtmosfericaJournal.UsuarioId = idUser;
@@ -496,7 +496,7 @@ class RegistroController {
                   presionAtmosfericaJournal.h1800 = createdPresionAtmosferica.h1800;
                   presionAtmosfericaJournal.PresionAtmosfericaId = createdPresionAtmosferica.id;
                   const createdPresionAtmosfericaJournal = await this._presionAtmosfericaJournalService.create(presionAtmosfericaJournal);
-  
+
                   const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);
                   termometroHumedoJournal.IPUser = IPUser;
                   termometroHumedoJournal.UsuarioId = idUser;
@@ -505,7 +505,7 @@ class RegistroController {
                   termometroHumedoJournal.h1800 = createdTermometroHumedo.h1800;
                   termometroHumedoJournal.TermometroHumedoId = createdTermometroHumedo.id;
                   const createdTermometroHumedoJournal = await this._termometroHumedoJournalService.create(termometroHumedoJournal);
-  
+
                   const createdTermometroSeco = await this._termometroSecoService.create(termometroSeco);
                   termometroSecoJournal.IPUser = IPUser;
                   termometroSecoJournal.UsuarioId = idUser;
@@ -514,7 +514,7 @@ class RegistroController {
                   termometroSecoJournal.h1800 = createdTermometroSeco.h1800;
                   termometroSecoJournal.TermometroSecoId = createdTermometroSeco.id;
                   const createdTermometroSecoJournal = await this._termometroSecoJournalService.create(termometroSecoJournal);
-  
+
                   const createdVisibilidad = await this._visibilidadService.create(visibilidad);
                   visibilidadJournal.IPUser = IPUser;
                   visibilidadJournal.UsuarioId = idUser;
@@ -523,7 +523,7 @@ class RegistroController {
                   visibilidadJournal.h1800 = createdVisibilidad.h1800;
                   visibilidadJournal.VisibilidadId = createdVisibilidad.id;
                   const createdVisibilidadJournal = await this._visibilidadJournalService.create(visibilidadJournal);
-  
+
                   registro.fecha = fechaBusqueda;
                   registro.TemperaturaId = createdTemperatura.id;
                   registro.TermometroHumedoId = createdTermometroHumedo.id;
@@ -542,7 +542,7 @@ class RegistroController {
                   registroJournal.horas_sol = createdRegistro.horas_sol;
                   registroJournal.RegistroId = createdRegistro.id;
                   const createdRegistroJournal = await this._registroJournalService.create(registroJournal);
-  
+
                   var reg2 = new Registro2Dto();
                   reg2.id = createdRegistro.id;
                   reg2.fecha = createdRegistro.fecha;
@@ -557,18 +557,19 @@ class RegistroController {
                   reg2.Nubosidad = createdNubosidad;
                   reg2.Visibilidad = createdVisibilidad;
                   reg2.Geotermometro = createdGeotermometro;
-  
+
                 } catch (e) {
                   console.log("error al crear el registro");
                 }
-  
+
                 console.log("registro creado");
               }
-  
+
               console.log("registro actualizado");
-            }
+
 
             });
+          }
         });
       }
     });
