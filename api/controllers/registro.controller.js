@@ -351,22 +351,56 @@ class RegistroController {
             fechaString += "00:00:00Z";
             var fechaBusqueda = new Date(fechaString);
 
-            registroF = await = this._registroService.getbyFecha(fechaBusqueda);
+            registroF = await this._registroService.getbyFecha(fechaBusqueda);
             if (registroF != null) {
 
-              let updatedTemperaturaF = await this._temperaturaService.update(registroF.TemperaturaId, registroExcel.Temperatura);
-              let updatedDireccionVientoF = await this._direccionVientoService.update(registroF.DireccionVientoId, registroExcel.DireccionViento);
-              let updatedTermometroSecoF = await this._termometroSecoService.update(registroF.TermometroSecoId, registroExcel.TermometroSeco);
-              let updatedTermometroHumedoF = await this._termometroHumedoService.update(registroF.TermometroHumedoId, registroExcel.TermometroHumedo);
-              let updatedPresionAtmosfericaF = await this._presionAtmosfericaService.update(registroF.PresionAtmosfericaId, registroExcel.PresionAtmosferica);
-              let updatedNubosidadF = await this._nubosidadService.update(registroF.NubosidadId, registroExcel.Nubosidad);
-              let updatedVisibilidadF = await this._visibilidadService.update(registroF.VisibilidadId, registroExcel.Visibilidad);
-              let updatedGeotermometroF = await this._geotermometroService.update(registroF.GeotermometroId, registroExcel.Geotermometro);
+              let updatedTemperaturaF;
+              this._temperaturaService.update(registroF.TemperaturaId, registroExcel.Temperatura).then( tem => {
+                updatedTemperaturaF = tem;
+              });
+
+              let updatedDireccionVientoF;
+              this._direccionVientoService.update(registroF.DireccionVientoId, registroExcel.DireccionViento).then( dir => {
+                updatedDireccionVientoF = dir;
+              });
+
+              let updatedTermometroSecoF; 
+              this._termometroSecoService.update(registroF.TermometroSecoId, registroExcel.TermometroSeco).then( temSec => {
+                updatedTermometroSecoF = temSec;
+              });
+
+              let updatedTermometroHumedoF;
+              this._termometroHumedoService.update(registroF.TermometroHumedoId, registroExcel.TermometroHumedo).then( temHum =>{
+                updatedTermometroSecoF = temHum;
+              });
+
+              let updatedPresionAtmosfericaF;
+              this._presionAtmosfericaService.update(registroF.PresionAtmosfericaId, registroExcel.PresionAtmosferica).then( presAt => {
+                updatedPresionAtmosfericaF = presAt;
+              });
+
+              let updatedNubosidadF;
+              this._nubosidadService.update(registroF.NubosidadId, registroExcel.Nubosidad).then( nub => {
+                updatedNubosidadF = nub;
+              });
+
+              let updatedVisibilidadF;
+              this._visibilidadService.update(registroF.VisibilidadId, registroExcel.Visibilidad).then( vis => {
+                updatedVisibilidadF = vis;
+              });
+
+              let updatedGeotermometroF;
+              this._geotermometroService.update(registroF.GeotermometroId, registroExcel.Geotermometro).then( geo => {
+                updatedGeotermometroF = updatedGeotermometroF;
+              });
 
               registroF.agua_caida = registroExcel.agua_caida;
               registroF.horas_sol = registroExcel.horas_sol;
               registroF.evaporamiento = registroExcel.evaporamiento;
-              let updatedRegistro = await this._registroService.update(registroF.id, registroF);
+              let updatedRegistroF;
+              this._registroService.update(registroF.id, registroF).then( regis => {
+                updatedRegistroF = regis;
+              });
 
               r2.id = registroF.id;
               r2.fecha = registroF.fecha;
