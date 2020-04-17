@@ -314,6 +314,7 @@ class RegistroController {
   }
 
   async registrarExcel(req, res) {
+    console.log('ya se llegó al controlador');
     console.log(req);
     let file = req.files.excel;
     let filename = file.name;

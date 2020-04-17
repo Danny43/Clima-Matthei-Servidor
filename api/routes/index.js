@@ -19,12 +19,14 @@ module.exports = function({
  }) {
   const router = Router();
   const apiRoute = Router();
+  console.log('aqui llegamos al enrutador');
 
   apiRoute
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 
+  console.log('aqui ya hicimos la conversion a json');
   apiRoute.use("/temperatura", TemperaturaRoutes);
   apiRoute.use("/nubosidad", NubosidadRoutes);
   apiRoute.use("/visibilidad", VisibilidadRoutes);
