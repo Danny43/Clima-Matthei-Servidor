@@ -21,7 +21,7 @@ module.exports = function({
    const apiRoute = Router();
    const routerExcel = Router();
   console.log('aqui llegamos al enrutador');
-
+  routerExcel.use(cors());
   apiRoute
     .use(bodyParser.json());
     //.use(compression());
