@@ -38,9 +38,9 @@ module.exports = function({
   apiRoute.use("/registro", RegistroRoutes);
   apiRoute.use("/registro-fecha", RegistroFechaRoutes);
   apiRoute.use("/usuario", UsuarioRoutes);
-  apiRoute.use("/excel", ExcelRoutes);
+  routerExcel.use("/excel", ExcelRoutes);
   router.use("/api", apiRoute);
- // router.use("/api", routerExcel);
+  router.use("/api", routerExcel);
 
   return router;
 };
