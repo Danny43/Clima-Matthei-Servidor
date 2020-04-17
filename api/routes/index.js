@@ -21,8 +21,8 @@ module.exports = function({
   const apiRoute = Router();
   console.log('aqui llegamos al enrutador');
 
-  //apiRoute
-    //.use(bodyParser.json())
+  apiRoute
+    .use(bodyParser.json());
     //.use(compression());
 
   console.log('aqui ya hicimos la conversion a json');
