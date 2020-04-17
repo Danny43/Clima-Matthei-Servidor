@@ -1,12 +1,12 @@
-const express = require("express");
-var cors = require("cors");
-let upload = require("express-fileupload");
+const express = require('express');
+var cors = require('cors');
+let upload = require('express-fileupload');
 var allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', "*");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Headers ', 'Content-Type', 'application/json');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept');
   next();
 }
 
@@ -17,8 +17,8 @@ class Server {
     this._express.use(cors());
     this._express.use(allowCrossDomain);
     //this._express.use(express.json({limit: '50mb'}));
-    this._express.use(router);
     this._express.use(upload());
+    this._express.use(router);
   }
 
   start() {

@@ -22,7 +22,7 @@ module.exports = function({
   console.log('aqui llegamos al enrutador');
 
   apiRoute
-    .use(cors())
+    //.use(cors())
     //.use(bodyParser.json())
     .use(compression());
 
