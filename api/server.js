@@ -16,7 +16,7 @@ class Server {
     this._express = express();
     this._express.use(cors());
     this._express.use(allowCrossDomain);
-    //this._express.use(express.json({limit: '50mb'}));
+    this._express.use(express.json({limit: '50mb'}));
     this._express.use(router);
     this._express.use(upload());
   }
