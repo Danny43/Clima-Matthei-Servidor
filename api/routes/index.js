@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const compression = require("compression");
@@ -22,6 +23,7 @@ module.exports = function({
    const routerExcel = Router();
   console.log('aqui llegamos al enrutador');
   routerExcel.use(cors());
+  routerExcel.use(express.json({limit: '50mb'}));
   apiRoute
     .use(bodyParser.json());
     //.use(compression());
