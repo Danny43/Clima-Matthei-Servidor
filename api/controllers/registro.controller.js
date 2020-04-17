@@ -314,7 +314,7 @@ class RegistroController {
   }
 
   async registrarExcel(req, res) {
-    console.log(req.files);
+    console.log(req);
     let file = req.files.excel;
     let filename = file.name;
     file.mv('../excel/' + filename, (err) => {
