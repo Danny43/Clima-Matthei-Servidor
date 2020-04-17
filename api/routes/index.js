@@ -17,8 +17,9 @@ module.exports = function({
   UsuarioRoutes,
   ExcelRoutes,
  }) {
-  const router = Router();
-  const apiRoute = Router();
+   const router = Router();
+   const apiRoute = Router();
+   const routerExcel = Router();
   console.log('aqui llegamos al enrutador');
 
   apiRoute
@@ -37,8 +38,9 @@ module.exports = function({
   apiRoute.use("/registro", RegistroRoutes);
   apiRoute.use("/registro-fecha", RegistroFechaRoutes);
   apiRoute.use("/usuario", UsuarioRoutes);
-  apiRoute.use("/excel", ExcelRoutes);
+  routerExcel.use("/excel", ExcelRoutes);
   router.use("/api", apiRoute);
+  router.use("/api", routerExcel);
 
   return router;
 };
