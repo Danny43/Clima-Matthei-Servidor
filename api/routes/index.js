@@ -24,8 +24,8 @@ module.exports = function({
   console.log('aqui llegamos al enrutador');
   routerExcel.use(cors());
   routerExcel.use(express.json({limit: '50mb'}));
-  apiRoute
-    .use(bodyParser.json());
+  //apiRoute
+    //.use(bodyParser.json());
     //.use(compression());
 
   console.log('aqui ya hicimos la conversion a json');
