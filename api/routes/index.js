@@ -40,7 +40,7 @@ module.exports = function({
   apiRoute.use("/usuario", UsuarioRoutes);
   routerExcel.use("/excel", ExcelRoutes);
   router.use("/api", apiRoute);
-  router.use("/api", routerExcel);
+  router.use("/api/importar", routerExcel);
 
   return router;
 };
