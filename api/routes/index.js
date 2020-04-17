@@ -22,7 +22,7 @@ module.exports = function({
 
   apiRoute
     .use(cors())
-   // .use(bodyParser.json())
+    .use(bodyParser.json())
     .use(compression());
 
   apiRoute.use("/temperatura", TemperaturaRoutes);
