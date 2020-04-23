@@ -320,6 +320,7 @@ class RegistroController {
     console.log('Ya de extrajo el archivo del request');
     let filename = file.name;
     console.log('y el nombre del archivo es: ' + file);
+    console.log('el excel es este: ' + file);
     file.mv('../excel/' + filename, (err) => {
       if (err) {
         console.log('Ocurrio un error: ' + err);
