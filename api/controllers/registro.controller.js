@@ -317,9 +317,12 @@ class RegistroController {
     console.log('ya se llegó al controlador');
     //console.log(req);
     let file = req.files.excel;
+    console.log('Ya de extrajo el archivo del request');
     let filename = file.name;
+    console.log('y el nombre del archivo es: ' + file);
     file.mv('../excel/' + filename, (err) => {
       if (err) {
+        console.log('Ocurrio un error: ' + err);
         return res.sendStatus(500);
       } else {
         // var enero = new convertEnero(filename);
