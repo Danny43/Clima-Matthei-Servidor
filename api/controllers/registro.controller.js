@@ -335,50 +335,49 @@ class RegistroController {
         // });
 
         var enero = new ConvertENERO(filename);
-        enero.getRegistros().then(r => {
-          console.log('TAMANO DEL REGISTRO DE ENERO: ' + r.length);
-          for (let index = 0; index < r.length; index++) {
-            const registroExcel = r[index];
-            const fecha = registroExcel.fecha;
-            var r2 = new Registro2Dto();
+        var r = await enero.getRegistros();
+        console.log('TAMANO DEL REGISTRO DE ENERO: ' + r.length);
+        for (let index = 0; index < r.length; index++) {
+          const registroExcel = r[index];
+          const fecha = registroExcel.fecha;
+          var r2 = new Registro2Dto();
 
-            var fechaPicker = new Date(fecha)
-            var fechaString = String(fechaPicker.getFullYear()) + "-";
-            if (fechaPicker.getMonth() + 1 < 10) {
-              fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
-            } else {
-              fechaString += String(fechaPicker.getMonth() + 1) + "-";
-            }
-            if (fechaPicker.getDate() < 10) {
-              fechaString += "0" + String(fechaPicker.getDate()) + "T";
-            } else {
-              fechaString += String(fechaPicker.getDate()) + "T";
-            }
-            fechaString += "00:00:00Z";
-            var fechaBusqueda = new Date(fechaString);
-
-            registroExcel.fecha = fechaBusqueda;
-
-            let registroF = null;
-            registroF = await this._registroService.getbyFecha(fechaBusqueda);
-
-            let token = req.headers.authorization.split(' ')[1];
-            let payload = jwt.verify(token, 'secretKey');
-            const idUser = payload.subject;
-            const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
-            if (registroF.id == 0) { //REGISTRAR FECHA SI NO EXISTE
-              console.log('CREAR FECHA: ' + registroExcel.fecha);
-              this.registrarDesdeExcel(registroExcel, idUser, IPUser);
-            }
-
-            if (registroF != null) { //ACTUALIZAR FECHA SI YA EXISTE
-              console.log('ACTUALIZAR FECHA: ' + registroExcel.fecha);
-              this.actualizarDesdeExcel(registroF, registroExcel, idUser, IPUser);
-
-            }
+          var fechaPicker = new Date(fecha)
+          var fechaString = String(fechaPicker.getFullYear()) + "-";
+          if (fechaPicker.getMonth() + 1 < 10) {
+            fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
+          } else {
+            fechaString += String(fechaPicker.getMonth() + 1) + "-";
           }
-        });
+          if (fechaPicker.getDate() < 10) {
+            fechaString += "0" + String(fechaPicker.getDate()) + "T";
+          } else {
+            fechaString += String(fechaPicker.getDate()) + "T";
+          }
+          fechaString += "00:00:00Z";
+          var fechaBusqueda = new Date(fechaString);
+
+          registroExcel.fecha = fechaBusqueda;
+
+          let registroF = null;
+          registroF = await this._registroService.getbyFecha(fechaBusqueda);
+
+          let token = req.headers.authorization.split(' ')[1];
+          let payload = jwt.verify(token, 'secretKey');
+          const idUser = payload.subject;
+          const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+
+          if (registroF.id == 0) { //REGISTRAR FECHA SI NO EXISTE
+            console.log('CREAR FECHA: ' + registroExcel.fecha);
+            this.registrarDesdeExcel(registroExcel, idUser, IPUser);
+          }
+
+          if (registroF != null) { //ACTUALIZAR FECHA SI YA EXISTE
+            console.log('ACTUALIZAR FECHA: ' + registroExcel.fecha);
+            this.actualizarDesdeExcel(registroF, registroExcel, idUser, IPUser);
+
+          }
+        }
       }
     });
   }
