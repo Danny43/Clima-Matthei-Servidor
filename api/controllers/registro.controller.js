@@ -357,6 +357,8 @@ class RegistroController {
             fechaString += "00:00:00Z";
             var fechaBusqueda = new Date(fechaString);
 
+            console.log('fecha a buscar en la base de datos: ' + fechaBusqueda);
+
             this._registroService.getbyFecha(fechaBusqueda).then(rf => {
               var registroF;
               registroF = rf;
