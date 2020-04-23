@@ -336,6 +336,7 @@ class RegistroController {
 
         var enero = new ConvertENERO(filename);
         enero.getRegistros().then(r => {
+          console.log('TAMANO DEL REGISTRO DE ENERO: ' + r.length);
           for (let index = 0; index < r.length; index++) {
             const registroExcel = r[index];
             const fecha = registroExcel.fecha;
