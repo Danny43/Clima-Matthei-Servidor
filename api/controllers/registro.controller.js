@@ -315,7 +315,7 @@ class RegistroController {
 
   async registrarExcel(req, res) {
     console.log('ya se llegó al controlador');
-    //console.log(req);
+    console.log(req);
     let file = req.files.excel;
     console.log('Ya de extrajo el archivo del request');
     let filename = file.name;
