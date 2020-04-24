@@ -314,13 +314,8 @@ class RegistroController {
   }
 
   async registrarExcel(req, res) {
-    console.log('ya se llegó al controlador');
-    console.log(req);
     let file = req.files.excel;
-    console.log('Ya de extrajo el archivo del request');
     let filename = file.name;
-    console.log('y el nombre del archivo es: ' + file);
-    console.log('el excel es este: ' + file);
     async function mover(file) {
       return new Promise((resolve, reject) => {
         file.mv('./excel/' + file.name, (err) => {
@@ -378,6 +373,8 @@ class RegistroController {
 
         }
       }
+    }else{
+      console.log('La promesa resulto falsa');
     }
   }
 
