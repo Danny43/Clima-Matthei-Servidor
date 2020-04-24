@@ -321,9 +321,9 @@ class RegistroController {
       return new Promise((resolve, reject) => {
         file.mv('./excel/' + file.name, (err) => {
           if (err) {
-            return false;
+            reject(false);
           } else {
-            return true;
+            resolve(true);
           }
         });
       })
@@ -647,7 +647,6 @@ class RegistroController {
     }
 
   }
-
 
 
 }
