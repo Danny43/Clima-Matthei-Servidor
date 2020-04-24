@@ -331,6 +331,7 @@ class RegistroController {
     console.log('antes de hacer la movicion');
     let op = await mover(file);
     if (op) {
+      console.log('La promesa resulto verdadera');
       var enero = new ConvertENERO(filename);
       var r = await enero.getRegistros();
       console.log('TAMANO DEL REGISTRO DE ENERO: ' + r.length);
