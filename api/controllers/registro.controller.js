@@ -328,6 +328,7 @@ class RegistroController {
         });
       })
     };
+    console.log('antes de hacer la movicion');
     let op = await mover(file);
     if (op) {
       var enero = new ConvertENERO(filename);
