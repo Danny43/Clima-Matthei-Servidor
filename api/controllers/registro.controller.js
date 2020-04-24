@@ -317,6 +317,7 @@ class RegistroController {
     let file = req.files.excel;
     let filename = file.name;
     async function mover(file) {
+      console.log('Se procede a mover el archivo');
       return new Promise((resolve, reject) => {
         file.mv('./excel/' + file.name, (err) => {
           if (err) {
