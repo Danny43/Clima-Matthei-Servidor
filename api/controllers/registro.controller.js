@@ -360,7 +360,7 @@ class RegistroController {
         let payload = jwt.verify(token, 'secretKey');
         const idUser = payload.subject;
         const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
+        console.log('el registro es ; ' + registroF);
         if (registroF.id == 0) { //REGISTRAR FECHA SI NO EXISTE
           console.log('CREAR FECHA: ' + registroExcel.fecha);
           this.registrarDesdeExcel(registroExcel, idUser, IPUser);
@@ -372,7 +372,7 @@ class RegistroController {
 
         }
       }
-    }else{
+    } else {
       console.log('No se pudo escribir el archivo');
     }
   }
