@@ -360,13 +360,12 @@ class RegistroController {
         let payload = jwt.verify(token, 'secretKey');
         const idUser = payload.subject;
         const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-        console.log('el registro es ; ' + registroF);
-        if (registroF.id == 0) { //REGISTRAR FECHA SI NO EXISTE
+        if (registroF == null) { //REGISTRAR FECHA SI NO EXISTE
           console.log('CREAR FECHA: ' + registroExcel.fecha);
           this.registrarDesdeExcel(registroExcel, idUser, IPUser);
         }
 
-        if (registroF != 0) { //ACTUALIZAR FECHA SI YA EXISTE
+        if (registroF != null) { //ACTUALIZAR FECHA SI YA EXISTE
           console.log('ACTUALIZAR FECHA: ' + registroExcel.fecha);
           this.actualizarDesdeExcel(registroF, registroExcel, idUser, IPUser);
 
