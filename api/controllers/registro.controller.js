@@ -317,7 +317,6 @@ class RegistroController {
     let file = req.files.excel;
     let filename = file.name;
     async function mover(file) {
-      console.log('Se procede a mover el archivo');
       return new Promise((resolve, reject) => {
         file.mv('./excel/' + file.name, (err) => {
           if (err) {
@@ -328,10 +327,8 @@ class RegistroController {
         });
       })
     };
-    console.log('antes de hacer la movicion');
     let op = await mover(file);
     if (op) {
-      console.log('La promesa resulto verdadera');
       var enero = new ConvertENERO(filename);
       var r = await enero.getRegistros();
       console.log('TAMANO DEL REGISTRO DE ENERO: ' + r.length);
@@ -357,8 +354,7 @@ class RegistroController {
 
         registroExcel.fecha = fechaBusqueda;
 
-        let registroF = null;
-        registroF = await this._registroService.getbyFecha(fechaBusqueda);
+        let registroF = await this._registroService.getbyFecha(fechaBusqueda);
 
         let token = req.headers.authorization.split(' ')[1];
         let payload = jwt.verify(token, 'secretKey');
@@ -370,14 +366,14 @@ class RegistroController {
           this.registrarDesdeExcel(registroExcel, idUser, IPUser);
         }
 
-        if (registroF != null) { //ACTUALIZAR FECHA SI YA EXISTE
+        if (registroF != 0) { //ACTUALIZAR FECHA SI YA EXISTE
           console.log('ACTUALIZAR FECHA: ' + registroExcel.fecha);
           this.actualizarDesdeExcel(registroF, registroExcel, idUser, IPUser);
 
         }
       }
     }else{
-      console.log('La promesa resulto falsa');
+      console.log('No se pudo escribir el archivo');
     }
   }
 
