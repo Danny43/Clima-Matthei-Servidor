@@ -21,10 +21,9 @@ class TermometroSecoController {
     if (!termometroSeco) {
       return res.status(404).send();
     }
-    termometroSeco = mapper(TermometroSecoDto, termometroSeco);
     return res.send({
-      payload: termometroSeco
-    });
+        payload: termometroSeco
+    });    
   }
 
   async createTermometroSeco(req, res) {
@@ -41,10 +40,8 @@ class TermometroSecoController {
     termometroSecoJournal.h1800 = createdTermometroSeco.h1800;
     termometroSecoJournal.TermometroSecoId = createdTermometroSeco.id;
     const createdTermometroSecoJournal = await this._termometroSecoJournalService.create(termometroSecoJournal);
-    
-    const termometroSeco = mapper(TermometroSecoDto, createdTermometroSeco);
-    return res.status(201).send({
-      payload: termometroSeco
+        return res.status(201).send({
+      payload: createdTermometroSeco
     });
   }
 

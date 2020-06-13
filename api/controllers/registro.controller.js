@@ -21,6 +21,9 @@ const {
   VisibilidadJournalDto,
   GeotermometroJournalDto,
 } = require("../dtos");
+let ConvertENERO = require("../converts/convertEnero");
+let ConvertFEBRERO = require("../converts/convertFebrero");
+let ConvertMARZO = require("../converts/convertMarzo");
 
 class RegistroController {
   constructor({
@@ -105,7 +108,6 @@ class RegistroController {
     if (!r2) {
       return res.status(404).send();
     }
-    r2 = mapper(Registro2Dto, r2);
     return res.send({
       payload: r2
     });
@@ -116,7 +118,24 @@ class RegistroController {
     } = req.params;
     var r2 = new Registro2Dto();
     let registroF = null;
-    registroF = await this._registroService.getbyFecha(fecha);
+
+    var fechaPicker = new Date(fecha)
+    var fechaString = String(fechaPicker.getFullYear()) + "-";
+    if (fechaPicker.getMonth() + 1 < 10) {
+      fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
+    } else {
+      fechaString += String(fechaPicker.getMonth() + 1) + "-";
+    }
+    if (fechaPicker.getDate() < 10) {
+      fechaString += "0" + String(fechaPicker.getDate()) + "T";
+    } else {
+      fechaString += String(fechaPicker.getDate()) + "T";
+    }
+    fechaString += "00:00:00Z";
+    var fechaBusqueda = new Date(fechaString);
+
+
+    registroF = await this._registroService.getbyFecha(fechaBusqueda);
     if (registroF != null) {
 
       let temperaturaF = await this._temperaturaService.get(registroF.TemperaturaId);
@@ -169,10 +188,424 @@ class RegistroController {
       var visibilidadJournal = new VisibilidadJournalDto();
       var registroJournal = new RegistroJournalDto();
 
-      let token = req.headers.authorization.split(' ')[1];
-      let payload = jwt.verify(token, 'secretKey');
-      const idUser = payload.subject;
-      const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+      try {
+        let token = req.headers.authorization.split(' ')[1];
+        let payload = jwt.verify(token, 'secretKey');
+        const idUser = payload.subject;
+        const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+
+        const createdTemperatura = await this._temperaturaService.create(temperatura);
+        temperaturaJournal.IPUser = IPUser;
+        temperaturaJournal.UsuarioId = idUser;
+        temperaturaJournal.minima = createdTemperatura.minima;
+        temperaturaJournal.maxima = createdTemperatura.maxima;
+        temperaturaJournal.TemperaturaId = createdTemperatura.id;
+        let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
+
+        const createdDireccionViento = await this._direccionVientoService.create(direccionViento);
+        direccionVientoJournal.IPUser = IPUser;
+        direccionVientoJournal.UsuarioId = idUser;
+        direccionVientoJournal.h0830 = createdDireccionViento.h0830;
+        direccionVientoJournal.h1400 = createdDireccionViento.h1400;
+        direccionVientoJournal.h1800 = createdDireccionViento.h1800;
+        direccionVientoJournal.DireccionVientoId = createdDireccionViento.id;
+        let createdDireccionVientoJournal = await this._direccionVientoJournalService.create(direccionVientoJournal);
+
+        const createdGeotermometro = await this._geotermometroService.create(geotermometro);
+        geotermometroJournal.IPUser = IPUser;
+        geotermometroJournal.UsuarioId = idUser;
+        geotermometroJournal.cm2 = createdGeotermometro.cm2;
+        geotermometroJournal.cm5 = createdGeotermometro.cm5;
+        geotermometroJournal.cm10 = createdGeotermometro.cm10;
+        geotermometroJournal.cm20 = createdGeotermometro.cm20;
+        geotermometroJournal.cm50 = createdGeotermometro.cm50;
+        geotermometroJournal.cm100 = createdGeotermometro.cm100;
+        geotermometroJournal.GeotermometroId = createdGeotermometro.id;
+        const createdGeotermometroJournal = await this._geotermometroJournalService.create(geotermometroJournal);
+
+        const createdNubosidad = await this._nubosidadService.create(nubosidad);
+        nubosidadJournal.IPUser = IPUser;
+        nubosidadJournal.UsuarioId = idUser;
+        nubosidadJournal.h0830 = createdNubosidad.h0830;
+        nubosidadJournal.h1400 = createdNubosidad.h1400;
+        nubosidadJournal.h1800 = createdNubosidad.h1800;
+        nubosidadJournal.NubosidadId = createdNubosidad.id;
+        const createdNubosidadJournal = await this._nubosidadJournalService.create(nubosidadJournal);
+
+        const createdPresionAtmosferica = await this._presionAtmosfericaService.create(presionAtmosferica);
+        presionAtmosfericaJournal.IPUser = IPUser;
+        presionAtmosfericaJournal.UsuarioId = idUser;
+        presionAtmosfericaJournal.h0830 = createdPresionAtmosferica.h0830;
+        presionAtmosfericaJournal.h1400 = createdPresionAtmosferica.h1400;
+        presionAtmosfericaJournal.h1800 = createdPresionAtmosferica.h1800;
+        presionAtmosfericaJournal.PresionAtmosfericaId = createdPresionAtmosferica.id;
+        const createdPresionAtmosfericaJournal = await this._presionAtmosfericaJournalService.create(presionAtmosfericaJournal);
+
+        const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);
+        termometroHumedoJournal.IPUser = IPUser;
+        termometroHumedoJournal.UsuarioId = idUser;
+        termometroHumedoJournal.h0830 = createdTermometroHumedo.h0830;
+        termometroHumedoJournal.h1400 = createdTermometroHumedo.h1400;
+        termometroHumedoJournal.h1800 = createdTermometroHumedo.h1800;
+        termometroHumedoJournal.TermometroHumedoId = createdTermometroHumedo.id;
+        const createdTermometroHumedoJournal = await this._termometroHumedoJournalService.create(termometroHumedoJournal);
+
+        const createdTermometroSeco = await this._termometroSecoService.create(termometroSeco);
+        termometroSecoJournal.IPUser = IPUser;
+        termometroSecoJournal.UsuarioId = idUser;
+        termometroSecoJournal.h0830 = createdTermometroSeco.h0830;
+        termometroSecoJournal.h1400 = createdTermometroSeco.h1400;
+        termometroSecoJournal.h1800 = createdTermometroSeco.h1800;
+        termometroSecoJournal.TermometroSecoId = createdTermometroSeco.id;
+        const createdTermometroSecoJournal = await this._termometroSecoJournalService.create(termometroSecoJournal);
+
+        const createdVisibilidad = await this._visibilidadService.create(visibilidad);
+        visibilidadJournal.IPUser = IPUser;
+        visibilidadJournal.UsuarioId = idUser;
+        visibilidadJournal.h0830 = createdVisibilidad.h0830;
+        visibilidadJournal.h1400 = createdVisibilidad.h1400;
+        visibilidadJournal.h1800 = createdVisibilidad.h1800;
+        visibilidadJournal.VisibilidadId = createdVisibilidad.id;
+        const createdVisibilidadJournal = await this._visibilidadJournalService.create(visibilidadJournal);
+
+        registro.fecha = fechaBusqueda;
+        registro.TemperaturaId = createdTemperatura.id;
+        registro.TermometroHumedoId = createdTermometroHumedo.id;
+        registro.TermometroSecoId = createdTermometroSeco.id;
+        registro.PresionAtmosfericaId = createdPresionAtmosferica.id;
+        registro.DireccionVientoId = createdDireccionViento.id;
+        registro.NubosidadId = createdNubosidad.id;
+        registro.VisibilidadId = createdVisibilidad.id;
+        registro.GeotermometroId = createdGeotermometro.id;
+        const createdRegistro = await this._registroService.create(registro);
+        registroJournal.IPUser = IPUser;
+        registroJournal.UsuarioId = idUser;
+        registroJournal.fecha = createdRegistro.fecha;
+        registroJournal.agua_caida = createdRegistro.agua_caida;
+        registroJournal.evaporamiento = createdRegistro.evaporamiento;
+        registroJournal.horas_sol = createdRegistro.horas_sol;
+        registroJournal.RegistroId = createdRegistro.id;
+        const createdRegistroJournal = await this._registroJournalService.create(registroJournal);
+
+        var reg2 = new Registro2Dto();
+        reg2.id = createdRegistro.id;
+        reg2.fecha = createdRegistro.fecha;
+        reg2.horas_sol = createdRegistro.horas_sol;
+        reg2.agua_caida = createdRegistro.agua_caida;
+        reg2.evaporamiento = createdRegistro.evaporamiento;
+        reg2.Temperatura = createdTemperatura;
+        reg2.TermometroHumedo = createdTermometroHumedo;
+        reg2.TermometroSeco = createdTermometroSeco;
+        reg2.PresionAtmosferica = createdPresionAtmosferica;
+        reg2.DireccionViento = createdDireccionViento;
+        reg2.Nubosidad = createdNubosidad;
+        reg2.Visibilidad = createdVisibilidad;
+        reg2.Geotermometro = createdGeotermometro;
+        return res.status(201).send({
+          payload: reg2
+        });
+      } catch (e) {
+        return res.status(404).send();
+      }
+
+
+    }
+    return res.send({
+      payload: r2
+    });
+  }
+
+  async registrarExcel(req, res) {
+    let file = req.files.excel;
+    let filename = file.name;
+    async function mover(file) {
+      return new Promise((resolve, reject) => {
+        file.mv('./excel/' + file.name, (err) => {
+          if (err) {
+            reject(false);
+          } else {
+            resolve(true);
+          }
+        });
+      })
+    };
+    let op = await mover(file);
+    if (op) {
+      var e = new ConvertENERO(filename);
+      var enero = await e.getRegistros();
+      console.log('TAMANO DEL REGISTRO DE ENERO: ' + enero.length);
+      for (let index = 0; index < enero.length; index++) {
+        const registroExcel = enero[index];
+        const fecha = registroExcel.fecha;
+        var r2 = new Registro2Dto();
+
+        var fechaPicker = new Date(fecha)
+        var fechaString = String(fechaPicker.getFullYear()) + "-";
+        if (fechaPicker.getMonth() + 1 < 10) {
+          fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
+        } else {
+          fechaString += String(fechaPicker.getMonth() + 1) + "-";
+        }
+        if (fechaPicker.getDate() < 10) {
+          fechaString += "0" + String(fechaPicker.getDate()) + "T";
+        } else {
+          fechaString += String(fechaPicker.getDate()) + "T";
+        }
+        fechaString += "00:00:00Z";
+        var fechaBusqueda = new Date(fechaString);
+
+        registroExcel.fecha = fechaBusqueda;
+
+        let registroF = await this._registroService.getbyFecha(fechaBusqueda);
+
+        let token = req.headers.authorization.split(' ')[1];
+        let payload = jwt.verify(token, 'secretKey');
+        const idUser = payload.subject;
+        const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        if (registroF == null) { //REGISTRAR FECHA SI NO EXISTE
+          console.log('CREAR FECHA: ' + registroExcel.fecha);
+          this.registrarDesdeExcel(registroExcel, idUser, IPUser);
+        }
+
+        if (registroF != null) { //ACTUALIZAR FECHA SI YA EXISTE
+          console.log('ACTUALIZAR FECHA: ' + registroExcel.fecha);
+          this.actualizarDesdeExcel(registroF, registroExcel, idUser, IPUser);
+
+        }
+      }
+
+      var f = new ConvertFEBRERO(filename);
+      var febrero = await f.getRegistros();
+      console.log('TAMANO DEL REGISTRO DE FEBRERO: ' + febrero.length);
+      for (let index = 0; index < febrero.length; index++) {
+        const registroExcel = febrero[index];
+        const fecha = registroExcel.fecha;
+        var r2 = new Registro2Dto();
+
+        var fechaPicker = new Date(fecha)
+        var fechaString = String(fechaPicker.getFullYear()) + "-";
+        if (fechaPicker.getMonth() + 1 < 10) {
+          fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
+        } else {
+          fechaString += String(fechaPicker.getMonth() + 1) + "-";
+        }
+        if (fechaPicker.getDate() < 10) {
+          fechaString += "0" + String(fechaPicker.getDate()) + "T";
+        } else {
+          fechaString += String(fechaPicker.getDate()) + "T";
+        }
+        fechaString += "00:00:00Z";
+        var fechaBusqueda = new Date(fechaString);
+
+        registroExcel.fecha = fechaBusqueda;
+
+        let registroF = await this._registroService.getbyFecha(fechaBusqueda);
+
+        let token = req.headers.authorization.split(' ')[1];
+        let payload = jwt.verify(token, 'secretKey');
+        const idUser = payload.subject;
+        const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        if (registroF == null) { //REGISTRAR FECHA SI NO EXISTE
+          console.log('CREAR FECHA: ' + registroExcel.fecha);
+          this.registrarDesdeExcel(registroExcel, idUser, IPUser);
+        }
+
+        if (registroF != null) { //ACTUALIZAR FECHA SI YA EXISTE
+          console.log('ACTUALIZAR FECHA: ' + registroExcel.fecha);
+          this.actualizarDesdeExcel(registroF, registroExcel, idUser, IPUser);
+
+        }
+      }
+
+      var m = new ConvertMARZO(filename);
+      var marzo = await m.getRegistros();
+      console.log('TAMANO DEL REGISTRO DE MARZO: ' + marzo.length);
+      for (let index = 0; index < marzo.length; index++) {
+        const registroExcel = marzo[index];
+        const fecha = registroExcel.fecha;
+        var r2 = new Registro2Dto();
+
+        var fechaPicker = new Date(fecha)
+        var fechaString = String(fechaPicker.getFullYear()) + "-";
+        if (fechaPicker.getMonth() + 1 < 10) {
+          fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
+        } else {
+          fechaString += String(fechaPicker.getMonth() + 1) + "-";
+        }
+        if (fechaPicker.getDate() < 10) {
+          fechaString += "0" + String(fechaPicker.getDate()) + "T";
+        } else {
+          fechaString += String(fechaPicker.getDate()) + "T";
+        }
+        fechaString += "00:00:00Z";
+        var fechaBusqueda = new Date(fechaString);
+
+        registroExcel.fecha = fechaBusqueda;
+
+        let registroF = await this._registroService.getbyFecha(fechaBusqueda);
+
+        let token = req.headers.authorization.split(' ')[1];
+        let payload = jwt.verify(token, 'secretKey');
+        const idUser = payload.subject;
+        const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        if (registroF == null) { //REGISTRAR FECHA SI NO EXISTE
+          console.log('CREAR FECHA: ' + registroExcel.fecha);
+          this.registrarDesdeExcel(registroExcel, idUser, IPUser);
+        }
+
+        if (registroF != null) { //ACTUALIZAR FECHA SI YA EXISTE
+          console.log('ACTUALIZAR FECHA: ' + registroExcel.fecha);
+          this.actualizarDesdeExcel(registroF, registroExcel, idUser, IPUser);
+
+        }
+      }
+
+    } else {
+      console.log('No se pudo escribir el archivo');
+    }
+  }
+
+  async createRegistro(req, res) {
+    const {
+      body
+    } = req;
+
+    var reg = new Registro2Dto();
+    var registro = new RegistroDto();
+    var registroJournal = new RegistroJournalDto();
+    var temperatura = new TemperaturaDto();
+    var temperaturaJournal = new TemperaturaJournalDto();
+    var termometroHumedo = new TermometroHumedoDto();
+    var termometroSeco = new TermometroSecoDto();
+    var presionAtmosferica = new PresionAtmosfericaDto();
+    var direccionViento = new DireccionVientoDto();
+    var nubosidad = new NubosidadDto();
+    var visibilidad = new VisibilidadDto();
+    var geotermometro = new GeotermometroDto();
+
+    reg = body;
+
+    temperatura = reg.Temperatura;
+    let createdTemperatura = await this._temperaturaService.create(temperatura);
+
+    temperaturaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    temperaturaJournal.UsuarioId = payload.subject;
+    temperaturaJournal.minima = createdTemperatura.minima;
+    temperaturaJournal.maxima = createdTemperatura.maxima;
+    let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
+
+    termometroHumedo = reg.TermometroHumedo;
+    const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);
+
+    termometroSeco = reg.TermometroSeco;
+    const createdTermometroSeco = await this._termometroSecoService.create(termometroSeco);
+
+    presionAtmosferica = reg.PresionAtmosferica;
+    const createdPresionAtmosferica = await this._presionAtmosfericaService.create(presionAtmosferica);
+
+    direccionViento = reg.DireccionViento;
+    const createdDireccionViento = await this._direccionVientoService.create(direccionViento);
+
+    nubosidad = reg.Nubosidad;
+    const createdNubosidad = await this._nubosidadService.create(nubosidad);
+
+    visibilidad = reg.Visibilidad;
+    const createdVisibilidad = await this._visibilidadService.create(visibilidad);
+
+    geotermometro = reg.Geotermometro;
+    const createdGeotermometro = await this._geotermometroService.create(geotermometro);
+
+
+    registro.fecha = reg.fecha;
+    registro.horas_sol = reg.horas_sol;
+    registro.agua_caida = reg.agua_caida;
+    registro.evaporamiento = reg.evaporamiento;
+    registro.TemperaturaId = createdTemperatura.id;
+    registro.TermometroHumedoId = createdTermometroHumedo.id;
+    registro.TermometroSecoId = createdTermometroSeco.id;
+    registro.PresionAtmosfericaId = createdPresionAtmosferica.id;
+    registro.DireccionVientoId = createdDireccionViento.id;
+    registro.NubosidadId = createdNubosidad.id;
+    registro.VisibilidadId = createdVisibilidad.id;
+    registro.GeotermometroId = createdGeotermometro.id;
+
+    const createdRegistro = await this._registroService.create(registro);
+    registroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    registroJournal.UsuarioId = payload.subject;
+    registroJournal.agua_caida = createdRegistro.agua_caida;
+    registroJournal.evaporamiento = createdRegistro.evaporamiento;
+    registroJournal.horas_sol = createdRegistro.horas_sol;
+    registroJournal.RegistroId = createdRegistro.id;
+    const createdRegistroJournal = await this._registroJournalService.create(registroJournal);
+
+    var reg2 = new Registro2Dto();
+    reg2.id = createdRegistro.id;
+    reg2.fecha = createdRegistro.fecha;
+    reg2.horas_sol = createdRegistro.horas_sol;
+    reg2.agua_caida = createdRegistro.agua_caida;
+    reg2.evaporamiento = createdRegistro.evaporamiento;
+    reg2.Temperatura = createdTemperatura;
+    reg2.TermometroHumedo = createdTermometroHumedo;
+    reg2.TermometroSeco = createdTermometroSeco;
+    reg2.PresionAtmosferica = createdPresionAtmosferica;
+    reg2.DireccionViento = createdDireccionViento;
+    reg2.Nubosidad = createdNubosidad;
+    reg2.Visibilidad = createdVisibilidad;
+    reg2.Geotermometro = createdGeotermometro;
+    return res.status(201).send({
+      payload: reg2
+    });
+  }
+
+  async updateRegistro(req, res) {
+    const {
+      body
+    } = req;
+    const {
+      id
+    } = req.params;
+
+    await this._registroService.update(id, body);
+    return res.status(204).send();
+
+  }
+
+  async deleteRegistro(req, res) {
+    const {
+      id
+    } = req.params;
+
+    await this._registroService.delete(id);
+    return res.status(204).send();
+  }
+
+  async registrarDesdeExcel(registroExcel, idUsuario, IPUsuario) {
+
+    var registro = new RegistroDto();
+    var temperatura = registroExcel.Temperatura;
+    var termometroHumedo = registroExcel.TermometroHumedo;
+    var termometroSeco = registroExcel.TermometroSeco;
+    var presionAtmosferica = registroExcel.PresionAtmosferica;
+    var direccionViento = registroExcel.DireccionViento;
+    var nubosidad = registroExcel.Nubosidad;
+    var visibilidad = registroExcel.Visibilidad;
+    var geotermometro = registroExcel.Geotermometro;
+    var temperaturaJournal = new TemperaturaJournalDto();
+    var direccionVientoJournal = new DireccionVientoJournalDto();
+    var geotermometroJournal = new GeotermometroJournalDto();
+    var nubosidadJournal = new NubosidadJournalDto();
+    var presionAtmosfericaJournal = new PresionAtmosfericaJournalDto();
+    var termometroHumedoJournal = new TermometroHumedoJournalDto();
+    var termometroSecoJournal = new TermometroSecoJournalDto();
+    var visibilidadJournal = new VisibilidadJournalDto();
+    var registroJournal = new RegistroJournalDto();
+
+
+    try {
+      const idUser = idUsuario;
+      const IPUser = IPUsuario;
 
       const createdTemperatura = await this._temperaturaService.create(temperatura);
       temperaturaJournal.IPUser = IPUser;
@@ -248,7 +681,10 @@ class RegistroController {
       visibilidadJournal.VisibilidadId = createdVisibilidad.id;
       const createdVisibilidadJournal = await this._visibilidadJournalService.create(visibilidadJournal);
 
-      registro.fecha = fecha;
+      registro.fecha = registroExcel.fecha;
+      registro.agua_caida = registroExcel.agua_caida;
+      registro.evaporamiento = registroExcel.evaporamiento;
+      registro.horas_sol = registroExcel.horas_sol;
       registro.TemperaturaId = createdTemperatura.id;
       registro.TermometroHumedoId = createdTermometroHumedo.id;
       registro.TermometroSecoId = createdTermometroSeco.id;
@@ -267,150 +703,36 @@ class RegistroController {
       registroJournal.RegistroId = createdRegistro.id;
       const createdRegistroJournal = await this._registroJournalService.create(registroJournal);
 
-      var reg2 = new Registro2Dto();
-      reg2.id = createdRegistro.id;
-      reg2.fecha = createdRegistro.fecha;
-      reg2.horas_sol = createdRegistro.horas_sol;
-      reg2.agua_caida = createdRegistro.agua_caida;
-      reg2.evaporamiento = createdRegistro.evaporamiento;
-      reg2.Temperatura = createdTemperatura;
-      reg2.TermometroHumedo = createdTermometroHumedo;
-      reg2.TermometroSeco = createdTermometroSeco;
-      reg2.PresionAtmosferica = createdPresionAtmosferica;
-      reg2.DireccionViento = createdDireccionViento;
-      reg2.Nubosidad = createdNubosidad;
-      reg2.Visibilidad = createdVisibilidad;
-      reg2.Geotermometro = createdGeotermometro;
-
-      const registro2 = mapper(Registro2Dto, reg2);
-      return res.status(201).send({
-        payload: registro2
-      });
-
+    } catch (e) {
+      console.log('Falla en la operacion de crear el registro');
     }
-    r2 = mapper(Registro2Dto, r2);
-    return res.send({
-      payload: r2
-    });
-  }
-
-  async createRegistro(req, res) {
-    const {
-      body
-    } = req;
-
-    var reg = new Registro2Dto();
-    var registro = new RegistroDto();
-    var registroJournal = new RegistroJournalDto();
-    var temperatura = new TemperaturaDto();
-    var temperaturaJournal = new TemperaturaJournalDto();
-    var termometroHumedo = new TermometroHumedoDto();
-    var termometroSeco = new TermometroSecoDto();
-    var presionAtmosferica = new PresionAtmosfericaDto();
-    var direccionViento = new DireccionVientoDto();
-    var nubosidad = new NubosidadDto();
-    var visibilidad = new VisibilidadDto();
-    var geotermometro = new GeotermometroDto();
-
-    reg = body;
-
-    temperatura = reg.Temperatura;
-    let createdTemperatura = await this._temperaturaService.create(temperatura);
-
-    temperaturaJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    let token = req.headers.authorization.split(' ')[1];
-    let payload = jwt.verify(token, 'secretKey');
-    temperaturaJournal.UsuarioId = payload.subject;
-    temperaturaJournal.minima = createdTemperatura.minima;
-    temperaturaJournal.maxima = createdTemperatura.maxima;
-    let createdTemperaturaJournal = await this._temperaturaJournalService.create(temperaturaJournal);
-
-    termometroHumedo = reg.TermometroHumedo;
-    const createdTermometroHumedo = await this._termometroHumedoService.create(termometroHumedo);
-
-    termometroSeco = reg.TermometroSeco;
-    const createdTermometroSeco = await this._termometroSecoService.create(termometroSeco);
-
-    presionAtmosferica = reg.PresionAtmosferica;
-    const createdPresionAtmosferica = await this._presionAtmosfericaService.create(presionAtmosferica);
-
-    direccionViento = reg.DireccionViento;
-    const createdDireccionViento = await this._direccionVientoService.create(direccionViento);
-
-    nubosidad = reg.Nubosidad;
-    const createdNubosidad = await this._nubosidadService.create(nubosidad);
-
-    visibilidad = reg.Visibilidad;
-    const createdVisibilidad = await this._visibilidadService.create(visibilidad);
-
-    geotermometro = reg.Geotermometro;
-    const createdGeotermometro = await this._geotermometroService.create(geotermometro);
-
-
-    registro.fecha = reg.fecha;
-    registro.horas_sol = reg.horas_sol;
-    registro.agua_caida = reg.agua_caida;
-    registro.evaporamiento = reg.evaporamiento;
-    registro.TemperaturaId = createdTemperatura.id;
-    registro.TermometroHumedoId = createdTermometroHumedo.id;
-    registro.TermometroSecoId = createdTermometroSeco.id;
-    registro.PresionAtmosfericaId = createdPresionAtmosferica.id;
-    registro.DireccionVientoId = createdDireccionViento.id;
-    registro.NubosidadId = createdNubosidad.id;
-    registro.VisibilidadId = createdVisibilidad.id;
-    registro.GeotermometroId = createdGeotermometro.id;
-    
-    const createdRegistro = await this._registroService.create(registro);
-    registroJournal.IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    registroJournal.UsuarioId = payload.subject;
-    registroJournal.agua_caida = createdRegistro.agua_caida;
-    registroJournal.evaporamiento = createdRegistro.evaporamiento;
-    registroJournal.horas_sol = createdRegistro.horas_sol;
-    registroJournal.RegistroId = createdRegistro.id;
-    const createdRegistroJournal = await this._registroJournalService.create(registroJournal);
-
-    var reg2 = new Registro2Dto();
-    reg2.id = createdRegistro.id;
-    reg2.fecha = createdRegistro.fecha;
-    reg2.horas_sol = createdRegistro.horas_sol;
-    reg2.agua_caida = createdRegistro.agua_caida;
-    reg2.evaporamiento = createdRegistro.evaporamiento;
-    reg2.Temperatura = createdTemperatura;
-    reg2.TermometroHumedo = createdTermometroHumedo;
-    reg2.TermometroSeco = createdTermometroSeco;
-    reg2.PresionAtmosferica = createdPresionAtmosferica;
-    reg2.DireccionViento = createdDireccionViento;
-    reg2.Nubosidad = createdNubosidad;
-    reg2.Visibilidad = createdVisibilidad;
-    reg2.Geotermometro = createdGeotermometro;
-
-    const registro2 = mapper(Registro2Dto, reg2);
-    return res.status(201).send({
-      payload: registro2
-    });
-  }
-
-  async updateRegistro(req, res) {
-    const {
-      body
-    } = req;
-    const {
-      id
-    } = req.params;
-
-    await this._registroService.update(id, body);
-    return res.status(204).send();
 
   }
 
-  async deleteRegistro(req, res) {
-    const {
-      id
-    } = req.params;
+  async actualizarDesdeExcel(registroF, registroExcel, idUsuario, IPUsuario) {
 
-    await this._registroService.delete(id);
-    return res.status(204).send();
+    try {
+      this._temperaturaService.update(registroF.TemperaturaId, registroExcel.Temperatura);
+      this._direccionVientoService.update(registroF.DireccionVientoId, registroExcel.DireccionViento);
+      this._termometroSecoService.update(registroF.TermometroSecoId, registroExcel.TermometroSeco);
+      this._termometroHumedoService.update(registroF.TermometroHumedoId, registroExcel.TermometroHumedo);
+      this._presionAtmosfericaService.update(registroF.PresionAtmosfericaId, registroExcel.PresionAtmosferica);
+      this._nubosidadService.update(registroF.NubosidadId, registroExcel.Nubosidad);
+      this._visibilidadService.update(registroF.VisibilidadId, registroExcel.Visibilidad);
+      this._geotermometroService.update(registroF.GeotermometroId, registroExcel.Geotermometro);
+
+      registroF.agua_caida = registroExcel.agua_caida;
+      registroF.horas_sol = registroExcel.horas_sol;
+      registroF.evaporamiento = registroExcel.evaporamiento;
+
+      this._registroService.update(registroF.id, registroF);
+    } catch (e) {
+      console.log('Falla en la operacion de actualizar el registro');
+    }
+
   }
+
+
 }
 
 module.exports = RegistroController;

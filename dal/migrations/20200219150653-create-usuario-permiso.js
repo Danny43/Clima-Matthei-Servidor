@@ -1,22 +1,18 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('TermometroSecos', {
+    return queryInterface.createTable('UsuarioPermisos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      h0830: {
-        allowNull: true,
-        type: Sequelize.FLOAT
+      usuarioId: {
+        type: Sequelize.INTEGER
       },
-      h1400: {
-        type: Sequelize.FLOAT
-      },
-      h1800: {
-        type: Sequelize.FLOAT
+      permisoId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +25,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('TermometroSecos');
+    return queryInterface.dropTable('UsuarioPermisos');
   }
 };

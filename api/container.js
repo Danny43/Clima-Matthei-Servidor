@@ -18,6 +18,7 @@ const PresionAtmosfericaRoutes = require("../api/routes/presion-atmosferica.rout
 const RegistroRoutes = require("../api/routes/registro.routes");
 const RegistroFechaRoutes = require("../api/routes/registro-fecha.routes");
 const UsuarioRoutes = require("../api/routes/usuario.routes");
+const ExcelRoutes = require("../api/routes/excel.routes");
 
 // business
 const {
@@ -136,6 +137,7 @@ container
     RegistroRoutes: asFunction(RegistroRoutes).singleton(),
     RegistroFechaRoutes: asFunction(RegistroFechaRoutes).singleton(),
     UsuarioRoutes: asFunction(UsuarioRoutes).singleton(),
+    ExcelRoutes: asFunction(ExcelRoutes).singleton(),
   })
   .register({
     config: asValue(config)

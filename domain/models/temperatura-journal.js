@@ -1,7 +1,7 @@
 class TemperaturaJournal {
     id = 0;
     IPUser = null;
-    minima = 0;
+    minima = null;
     maxima = null;
     UsuarioId = null;
     TemperaturaId = null;

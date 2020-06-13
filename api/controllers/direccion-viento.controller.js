@@ -21,7 +21,6 @@ class DireccionVientoController {
     if (!direccionViento) {
       return res.status(404).send();
     }
-    direccionViento = mapper(DireccionVientoDto, direccionViento);
     return res.send({
       payload: direccionViento
     });
@@ -40,9 +39,8 @@ class DireccionVientoController {
     direccionVientoJournal.h1800 = createdDireccionViento.h1800;
     direccionVientoJournal.DireccionVientoId = createdDireccionViento.id;
     let createdDireccionVientoJournal = await this._direccionVientoJournalService.create(direccionVientoJournal);
-    const direccionViento = mapper(DireccionVientoDto, createdDireccionViento);
     return res.status(201).send({
-      payload: direccionViento
+      payload: createdDireccionViento
     });
   }
 

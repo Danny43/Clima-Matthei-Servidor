@@ -5,8 +5,8 @@ class UsuarioJournalDto {
     apellidos = "";
     email = "";
     password = "";
-    porUsuario = 0;
-    UsuarioId = 0;
+    porUsuario = null;
+    UsuarioId = null;
     createdAt = null;
     updatedAt = null;
   }

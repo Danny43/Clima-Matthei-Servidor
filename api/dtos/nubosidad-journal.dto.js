@@ -4,8 +4,8 @@ class NubosidadJournalDto {
     h0830 = null;
     h1400 = null;
     h1800 = null;
-    UsuarioId = 0;
-    NubosidadId = 0;
+    UsuarioId = null;
+    NubosidadId = null;
     createdAt = null;
     updatedAt = null;
   }

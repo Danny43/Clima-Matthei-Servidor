@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const compression = require("compression");
@@ -15,15 +16,18 @@ module.exports = function({
   RegistroRoutes,
   RegistroFechaRoutes,
   UsuarioRoutes,
+  ExcelRoutes,
  }) {
-  const router = Router();
-  const apiRoute = Router();
-
+   const router = Router();
+   const apiRoute = Router();
+   const routerExcel = Router();
+  console.log('aqui llegamos al enrutador');
+  routerExcel.use(cors());
   apiRoute
-    .use(cors())
-    .use(bodyParser.json())
-    .use(compression());
+    .use(bodyParser.json());
+    //.use(compression());
 
+  console.log('aqui ya hicimos la conversion a json');
   apiRoute.use("/temperatura", TemperaturaRoutes);
   apiRoute.use("/nubosidad", NubosidadRoutes);
   apiRoute.use("/visibilidad", VisibilidadRoutes);
@@ -35,7 +39,9 @@ module.exports = function({
   apiRoute.use("/registro", RegistroRoutes);
   apiRoute.use("/registro-fecha", RegistroFechaRoutes);
   apiRoute.use("/usuario", UsuarioRoutes);
+  apiRoute.use("/excel", ExcelRoutes);
   router.use("/api", apiRoute);
+  //router.use("/api/importar", routerExcel);
 
   return router;
 };

@@ -21,7 +21,6 @@ class NubosidadController {
     if (!nubosidad) {
       return res.status(404).send();
     }
-    nubosidad = mapper(NubosidadDto, nubosidad);
     return res.send({
       payload: nubosidad
     });
@@ -41,10 +40,8 @@ class NubosidadController {
     nubosidadJournal.h1800 = createdNubosidad.h1800;
     nubosidadJournal.NubosidadId = createdNubosidad.id;
     const createdNubosidadJournal = await this._nubosidadJournalService.create(nubosidadJournal);
-    const nubosidad = mapper(NubosidadDto, createdNubosidad);
-
     return res.status(201).send({
-      payload: nubosidad
+      payload: createdNubosidad
     });
   }
 
