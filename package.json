@@ -20,7 +20,7 @@
     "express-fileupload": "^1.1.6",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^1.6.5",
-    "sequelize": "^5.8.6"
+    "sequelize": "^5.15.1"
   },
   "devDependencies": {
     "sequelize-cli": "^5.5.1"
