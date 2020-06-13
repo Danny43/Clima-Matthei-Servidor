@@ -4,7 +4,7 @@ module.exports = {
     database: 'mt',
     username: 'apiserver',
     password: 'mattheiAPIJS2435!',
-    host: 'localhost',
+    host: '192.168.1.17',
     dialect: 'mysql',
     pool: {
       max: 5,
