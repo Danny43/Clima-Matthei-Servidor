@@ -41,7 +41,7 @@ class UsuarioController {
         if(body.password === usuario.password){
             let payload = {subject: usuario.id};
             let token = jwt.sign(payload, 'secretKey');
-            return res.status(200).send({token});
+            return res.status(200).send({token, usuario});
         }else{
             return res.status(401).send();
         }
