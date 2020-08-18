@@ -41,7 +41,11 @@ class UsuarioController {
     let payload = jwt.verify(token, 'secretKey');
     const idUser = payload.subject;
     const usuario = await this._usuarioService.get(idUser);
-    return res.status(200).send({usuario})
+    if(usuario){
+      return res.status(200).send({usuario})
+    }else{
+      return res.status(401).send();
+    }
   }
 
   async iniciarSesion(req, res) {
