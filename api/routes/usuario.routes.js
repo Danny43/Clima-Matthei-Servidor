@@ -21,11 +21,14 @@ module.exports = function({ UsuarioController }) {
   }
 
   //Comprobar Sesion
-  router.get("/", verifyToken, UsuarioController.getToken.bind(UsuarioController));
+  //router.get("/", verifyToken, UsuarioController.getToken.bind(UsuarioController));
   //Registrar
   router.post("/", UsuarioController.iniciarSesion.bind(UsuarioController));
   //Iniciar Sesion
   router.put("/",  UsuarioController.iniciarSesion.bind(UsuarioController));
+
+  router.get("/", verifyToken, UsuarioController.getMyUser.bind(UsuarioController));
+
 
   return router;
 };
