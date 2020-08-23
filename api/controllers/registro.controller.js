@@ -29,6 +29,7 @@ let ConvertMAYO = require('../converts/convertMayo');
 let ConvertJUNIO = require("../converts/convertJunio");
 let ConvertJULIO = require('../converts/convertJulio');
 let ConvertAGOSTO = require('../converts/convertAgosto');
+let ConvertSEPTIEMBRE = require('../converts/convertSeptiembre');
 
 class RegistroController {
   constructor({
@@ -642,6 +643,49 @@ class RegistroController {
       console.log('TAMANO DEL REGISTRO DE AGOSTO: ' + agosto.length);
       for (let index = 0; index < agosto.length; index++) {
         const registroExcel = agosto[index];
+        const fecha = registroExcel.fecha;
+        var r2 = new Registro2Dto();
+
+        var fechaPicker = new Date(fecha)
+        var fechaString = String(fechaPicker.getFullYear()) + "-";
+        if (fechaPicker.getMonth() + 1 < 10) {
+          fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
+        } else {
+          fechaString += String(fechaPicker.getMonth() + 1) + "-";
+        }
+        if (fechaPicker.getDate() < 10) {
+          fechaString += "0" + String(fechaPicker.getDate()) + "T";
+        } else {
+          fechaString += String(fechaPicker.getDate()) + "T";
+        }
+        fechaString += "00:00:00Z";
+        var fechaBusqueda = new Date(fechaString);
+
+        registroExcel.fecha = fechaBusqueda;
+
+        let registroF = await this._registroService.getbyFecha(fechaBusqueda);
+
+        let token = req.headers.authorization.split(' ')[1];
+        let payload = jwt.verify(token, 'secretKey');
+        const idUser = payload.subject;
+        const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        if (registroF == null) { //REGISTRAR FECHA SI NO EXISTE
+          console.log('CREAR FECHA: ' + registroExcel.fecha);
+          await this.registrarDesdeExcel(registroExcel, idUser, IPUser);
+        }
+
+        if (registroF != null) { //ACTUALIZAR FECHA SI YA EXISTE
+          console.log('ACTUALIZAR FECHA: ' + registroExcel.fecha);
+          await this.actualizarDesdeExcel(registroF, registroExcel, idUser, IPUser);
+
+        }
+      }
+
+      var s = new ConvertSEPTIEMBRE(filename);
+      var septiembre = await s.getRegistros();
+      console.log('TAMANO DEL REGISTRO DE SEPTIEMBRE: ' + septiembre.length);
+      for (let index = 0; index < septiembre.length; index++) {
+        const registroExcel = septiembre[index];
         const fecha = registroExcel.fecha;
         var r2 = new Registro2Dto();
 
