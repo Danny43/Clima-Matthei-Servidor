@@ -24,6 +24,7 @@ const {
 let ConvertENERO = require("../converts/convertEnero");
 let ConvertFEBRERO = require("../converts/convertFebrero");
 let ConvertMARZO = require("../converts/convertMarzo");
+let ConvertABRIL = require('../converts/convertAbril');
 
 class RegistroController {
   constructor({
@@ -459,6 +460,51 @@ class RegistroController {
 
         }
       }
+
+      var a = new ConvertABRIL(filename);
+      var abril = await a.getRegistros();
+      console.log('TAMANO DEL REGISTRO DE ABRIL: ' + abril.length);
+      for (let index = 0; index < abril.length; index++) {
+        const registroExcel = abril[index];
+        const fecha = registroExcel.fecha;
+        var r2 = new Registro2Dto();
+
+        var fechaPicker = new Date(fecha)
+        var fechaString = String(fechaPicker.getFullYear()) + "-";
+        if (fechaPicker.getMonth() + 1 < 10) {
+          fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
+        } else {
+          fechaString += String(fechaPicker.getMonth() + 1) + "-";
+        }
+        if (fechaPicker.getDate() < 10) {
+          fechaString += "0" + String(fechaPicker.getDate()) + "T";
+        } else {
+          fechaString += String(fechaPicker.getDate()) + "T";
+        }
+        fechaString += "00:00:00Z";
+        var fechaBusqueda = new Date(fechaString);
+
+        registroExcel.fecha = fechaBusqueda;
+
+        let registroF = await this._registroService.getbyFecha(fechaBusqueda);
+
+        let token = req.headers.authorization.split(' ')[1];
+        let payload = jwt.verify(token, 'secretKey');
+        const idUser = payload.subject;
+        const IPUser = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        if (registroF == null) { //REGISTRAR FECHA SI NO EXISTE
+          console.log('CREAR FECHA: ' + registroExcel.fecha);
+          this.registrarDesdeExcel(registroExcel, idUser, IPUser);
+        }
+
+        if (registroF != null) { //ACTUALIZAR FECHA SI YA EXISTE
+          console.log('ACTUALIZAR FECHA: ' + registroExcel.fecha);
+          this.actualizarDesdeExcel(registroF, registroExcel, idUser, IPUser);
+
+        }
+      }
+
+      res.status(200).send();
 
     } else {
       console.log('No se pudo escribir el archivo');
