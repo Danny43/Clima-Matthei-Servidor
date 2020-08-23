@@ -27,7 +27,7 @@ let ConvertMARZO = require("../converts/convertMarzo");
 let ConvertABRIL = require('../converts/convertAbril');
 let ConvertMAYO = require('../converts/convertMayo');
 let ConvertJUNIO = require("../converts/convertJunio");
-let convertJULIO = require('../converts/convertJulio');
+let ConvertJULIO = require('../converts/convertJulio');
 
 class RegistroController {
   constructor({
