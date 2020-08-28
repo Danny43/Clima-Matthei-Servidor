@@ -128,7 +128,9 @@ class RegistroController {
     var r2 = new Registro2Dto();
     let registroF = null;
 
-    var fechaPicker = new Date(fecha)
+    var fechaPicker = new Date(fecha);
+    fechaPicker.setHours(0,0,0,0);
+    fechaPicker.setUTCHours(0,0,0,0);
     var fechaString = String(fechaPicker.getFullYear()) + "-";
     if (fechaPicker.getMonth() + 1 < 10) {
       fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
@@ -144,7 +146,7 @@ class RegistroController {
     var fechaBusqueda = new Date(fechaString);
 
 
-    registroF = await this._registroService.getbyFecha(fechaBusqueda);
+    registroF = await this._registroService.getbyFecha(fechaPicker);
     if (registroF != null) {
 
       let temperaturaF = await this._temperaturaService.get(registroF.TemperaturaId);
@@ -277,7 +279,7 @@ class RegistroController {
         visibilidadJournal.VisibilidadId = createdVisibilidad.id;
         const createdVisibilidadJournal = await this._visibilidadJournalService.create(visibilidadJournal);
 
-        registro.fecha = fechaBusqueda;
+        registro.fecha = fechaPicker;
         registro.TemperaturaId = createdTemperatura.id;
         registro.TermometroHumedoId = createdTermometroHumedo.id;
         registro.TermometroSecoId = createdTermometroSeco.id;
