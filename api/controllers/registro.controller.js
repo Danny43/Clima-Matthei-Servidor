@@ -121,6 +121,7 @@ class RegistroController {
 
     var fechaPicker = new Date(fecha);
     fechaPicker.setHours(0,0,0,0);
+    fechaPicker.setUTCHours(0,0,0,0);
     var fechaString = String(fechaPicker.getFullYear()) + "-";
     if (fechaPicker.getMonth() + 1 < 10) {
       fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
