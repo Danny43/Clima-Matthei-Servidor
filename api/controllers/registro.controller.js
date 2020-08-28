@@ -131,20 +131,6 @@ class RegistroController {
     var fechaPicker = new Date(fecha);
     fechaPicker.setHours(0,0,0,0);
     fechaPicker.setUTCHours(0,0,0,0);
-    var fechaString = String(fechaPicker.getFullYear()) + "-";
-    if (fechaPicker.getMonth() + 1 < 10) {
-      fechaString += "0" + String(fechaPicker.getMonth() + 1) + "-";
-    } else {
-      fechaString += String(fechaPicker.getMonth() + 1) + "-";
-    }
-    if (fechaPicker.getDate() < 10) {
-      fechaString += "0" + String(fechaPicker.getDate()) + "T";
-    } else {
-      fechaString += String(fechaPicker.getDate()) + "T";
-    }
-    fechaString += "00:00:00Z";
-    var fechaBusqueda = new Date(fechaString);
-
 
     registroF = await this._registroService.getbyFecha(fechaPicker);
     if (registroF != null) {
