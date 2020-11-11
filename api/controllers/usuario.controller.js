@@ -79,7 +79,7 @@ class UsuarioController {
     let token = req.headers.authorization.split(' ')[1];
     let payload = jwt.verify(token, 'secretKey');
     const idUser = payload.subject;
-    const listaPermisos = this._usuarioPermisoService.getAll();
+    const listaPermisos = await this._usuarioPermisoService.getAll();
     console.log(listaPermisos);
     let permitido = false;
     for (let i = 0; i < listaPermisos.length; i++) {
