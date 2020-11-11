@@ -8,6 +8,7 @@ module.exports = {
   DireccionVientoDto: require("./direccion-viento.dto"),
   PresionAtmosfericaDto: require("./presion-atmosferica.dto"),
   RegistroDto: require("./registro.dto"),
+  PermisoDto: require("./permiso.dto"),
   UsuarioPermisoDto: require("./usuario-permiso.dto"),
   Registro2Dto: require("./registro2.dto"),
   TemperaturaJournalDto: require("./temperatura-journal.dto"),

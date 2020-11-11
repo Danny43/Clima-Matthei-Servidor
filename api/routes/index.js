@@ -16,18 +16,17 @@ module.exports = function({
   RegistroRoutes,
   RegistroFechaRoutes,
   UsuarioRoutes,
+  PermisoRoutes,
   ExcelRoutes,
  }) {
    const router = Router();
    const apiRoute = Router();
    const routerExcel = Router();
-  console.log('aqui llegamos al enrutador');
   routerExcel.use(cors());
   apiRoute
     .use(bodyParser.json());
     //.use(compression());
 
-  console.log('aqui ya hicimos la conversion a json');
   apiRoute.use("/temperatura", TemperaturaRoutes);
   apiRoute.use("/nubosidad", NubosidadRoutes);
   apiRoute.use("/visibilidad", VisibilidadRoutes);
@@ -39,6 +38,7 @@ module.exports = function({
   apiRoute.use("/registro", RegistroRoutes);
   apiRoute.use("/registro-fecha", RegistroFechaRoutes);
   apiRoute.use("/usuario", UsuarioRoutes);
+  apiRoute.use("/permiso", PermisoRoutes)
   apiRoute.use("/excel", ExcelRoutes);
   router.use("/api", apiRoute);
   //router.use("/api/importar", routerExcel);

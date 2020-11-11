@@ -9,6 +9,7 @@ module.exports = {
   PresionAtmosfericaBusiness: require("./presion-atmosferica.business"),
   RegistroBusiness: require("./registro.business"),
   UsuarioBusiness: require("./usuario.business"),
+  PermisoBusiness: require("./permiso.business"),
   UsuarioPermisoBusiness: require("./usuario-permiso.business"),
   TemperaturaJournalBusiness: require("./temperatura-journal.business"),
   NubosidadJournalBusiness: require("./nubosidad-journal.business"),

@@ -9,6 +9,7 @@ module.exports = {
   PresionAtmosfericaService: require("./presion-atmosferica.service"),
   RegistroService: require("./registro.service"),
   UsuarioService: require("./usuario.service"),
+  PermisoService: require("./permiso.service"),
   UsuarioPermisoService: require("./usuario-permiso.service"),
   TemperaturaJournalService: require("./temperatura-journal.service"),
   NubosidadJournalService: require("./nubosidad-journal.service"),

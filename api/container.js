@@ -18,6 +18,7 @@ const PresionAtmosfericaRoutes = require("../api/routes/presion-atmosferica.rout
 const RegistroRoutes = require("../api/routes/registro.routes");
 const RegistroFechaRoutes = require("../api/routes/registro-fecha.routes");
 const UsuarioRoutes = require("../api/routes/usuario.routes");
+const PermisoRoutes = require("../api/routes/permiso.routes");
 const ExcelRoutes = require("../api/routes/excel.routes");
 
 // business
@@ -32,6 +33,7 @@ const {
   PresionAtmosfericaBusiness,
   RegistroBusiness,
   UsuarioBusiness,
+  PermisoBusiness,
   UsuarioPermisoBusiness,
   TemperaturaJournalBusiness,
   NubosidadJournalBusiness,
@@ -57,6 +59,7 @@ const {
   PresionAtmosfericaController,
   RegistroController,
   UsuarioController,
+  PermisoController,
 } = require("../api/controllers");
 
 // services
@@ -82,6 +85,7 @@ const {
    PresionAtmosfericaJournalService, 
    RegistroJournalService, 
    UsuarioJournalService, 
+   PermisoService,
   } = require("../services");
 
 // repositories
@@ -107,6 +111,7 @@ const {
   PresionAtmosfericaJournalRepository, 
   RegistroJournalRepository, 
   UsuarioJournalRepository, 
+  PermisoRepository,
 } = require("../dal/repositories");
 
 // db
@@ -136,10 +141,12 @@ container
     PresionAtmosfericaController: asClass(PresionAtmosfericaController).singleton(),
     PresionAtmosfericaRoutes: asFunction(PresionAtmosfericaRoutes).singleton(),
     RegistroController: asClass(RegistroController).singleton(),
-    UsuarioController: asClass(UsuarioController).singleton(),
     RegistroRoutes: asFunction(RegistroRoutes).singleton(),
-    RegistroFechaRoutes: asFunction(RegistroFechaRoutes).singleton(),
+    UsuarioController: asClass(UsuarioController).singleton(),
     UsuarioRoutes: asFunction(UsuarioRoutes).singleton(),
+    PermisoController: asClass(PermisoController).singleton(),
+    PermisoRoutes: asFunction(PermisoRoutes).singleton(),
+    RegistroFechaRoutes: asFunction(RegistroFechaRoutes).singleton(),
     ExcelRoutes: asFunction(ExcelRoutes).singleton(),
   })
   .register({
@@ -159,6 +166,7 @@ container
     PresionAtmosfericaService: asClass(PresionAtmosfericaService).singleton(),
     RegistroService: asClass(RegistroService).singleton(),
     UsuarioService: asClass(UsuarioService).singleton(),
+    PermisoService: asClass(PermisoService).singleton(),
     UsuarioPermisoService: asClass(UsuarioPermisoService).singleton(),
     TemperaturaJournalService: asClass(TemperaturaJournalService).singleton(),
     NubosidadJournalService: asClass(NubosidadJournalService).singleton(),
@@ -182,6 +190,7 @@ container
     PresionAtmosfericaRepository: asClass(PresionAtmosfericaRepository).singleton(),
     RegistroRepository: asClass(RegistroRepository).singleton(),
     UsuarioRepository: asClass(UsuarioRepository).singleton(),
+    PermisoRepository: asClass(PermisoRepository).singleton(),
     UsuarioPermisoRepository: asClass(UsuarioPermisoRepository).singleton(),
     TemperaturaJournalRepository: asClass(TemperaturaJournalRepository).singleton(),
     NubosidadJournalRepository: asClass(NubosidadJournalRepository).singleton(),
@@ -205,6 +214,7 @@ container
     PresionAtmosfericaBusiness: asClass(PresionAtmosfericaBusiness).singleton(),
     RegistroBusiness: asClass(RegistroBusiness).singleton(),
     UsuarioBusiness: asClass(UsuarioBusiness).singleton(),
+    PermisoBusiness: asClass(PermisoBusiness).singleton(),
     UsuarioPermisoBusiness: asClass(UsuarioPermisoBusiness).singleton(),
     TemperaturaJournalBusiness: asClass(TemperaturaJournalBusiness).singleton(),
     NubosidadJournalBusiness: asClass(NubosidadJournalBusiness).singleton(),

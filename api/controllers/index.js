@@ -8,5 +8,6 @@ module.exports = {
   DireccionVientoController: require("./direccion-viento.controller"),
   PresionAtmosfericaController: require("./presion-atmosferica.controller"),
   RegistroController: require("./registro.controller"),
+  PermisoController: require("./permiso.controller"),
   UsuarioController: require("./usuario.controller"),
 };

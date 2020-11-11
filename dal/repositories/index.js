@@ -9,6 +9,7 @@ module.exports = {
   PresionAtmosfericaRepository: require("./presion-atmosferica.repository"),
   RegistroRepository: require("./registro.repository"),
   UsuarioRepository: require("./usuario.repository"),
+  PermisoRepository: require("./permiso-repository"),
   UsuarioPermisoRepository: require("./usuario-permiso.repository"),
   TemperaturaJournalRepository: require("./temperatura-journal.repository"),
   NubosidadJournalRepository: require("./nubosidad-journal.repository"),
