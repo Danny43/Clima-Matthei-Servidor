@@ -16,6 +16,7 @@ module.exports = function({
   RegistroRoutes,
   RegistroFechaRoutes,
   UsuarioRoutes,
+  UsuarioPermisoRoutes,
   PermisoRoutes,
   ExcelRoutes,
  }) {
@@ -38,7 +39,8 @@ module.exports = function({
   apiRoute.use("/registro", RegistroRoutes);
   apiRoute.use("/registro-fecha", RegistroFechaRoutes);
   apiRoute.use("/usuario", UsuarioRoutes);
-  apiRoute.use("/permiso", PermisoRoutes)
+  apiRoute.use("/usuario-permiso", UsuarioPermisoRoutes)
+  apiRoute.use("/permiso", PermisoRoutes);
   apiRoute.use("/excel", ExcelRoutes);
   router.use("/api", apiRoute);
   //router.use("/api/importar", routerExcel);

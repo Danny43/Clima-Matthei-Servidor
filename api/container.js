@@ -19,6 +19,7 @@ const RegistroRoutes = require("../api/routes/registro.routes");
 const RegistroFechaRoutes = require("../api/routes/registro-fecha.routes");
 const UsuarioRoutes = require("../api/routes/usuario.routes");
 const PermisoRoutes = require("../api/routes/permiso.routes");
+const UsuarioPermisoRoutes = require("../api/routes/usuario-permiso.routes");
 const ExcelRoutes = require("../api/routes/excel.routes");
 
 // business
@@ -60,6 +61,7 @@ const {
   RegistroController,
   UsuarioController,
   PermisoController,
+  UsuarioPermisoController,
 } = require("../api/controllers");
 
 // services
@@ -144,6 +146,8 @@ container
     RegistroRoutes: asFunction(RegistroRoutes).singleton(),
     UsuarioController: asClass(UsuarioController).singleton(),
     UsuarioRoutes: asFunction(UsuarioRoutes).singleton(),
+    UsuarioPermisoController: asClass(UsuarioPermisoController).singleton(),
+    UsuarioPermisoRoutes: asFunction(UsuarioPermisoRoutes).singleton(),
     PermisoController: asClass(PermisoController).singleton(),
     PermisoRoutes: asFunction(PermisoRoutes).singleton(),
     RegistroFechaRoutes: asFunction(RegistroFechaRoutes).singleton(),

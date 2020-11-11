@@ -9,5 +9,6 @@ module.exports = {
   PresionAtmosfericaController: require("./presion-atmosferica.controller"),
   RegistroController: require("./registro.controller"),
   PermisoController: require("./permiso.controller"),
+  UsuarioPermisoController: require("./usuario-permiso.controller"),
   UsuarioController: require("./usuario.controller"),
 };
