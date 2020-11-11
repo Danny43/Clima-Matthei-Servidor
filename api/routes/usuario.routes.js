@@ -29,6 +29,8 @@ module.exports = function({ UsuarioController }) {
 
   router.get("/", verifyToken, UsuarioController.getMyUser.bind(UsuarioController));
 
+  router.post("/crear", verifyToken, UsuarioController.createUsuario.bind(UsuarioController));
+
 
   return router;
 };

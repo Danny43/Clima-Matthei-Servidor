@@ -6,9 +6,11 @@ const jwt = require('jsonwebtoken');
 
 class UsuarioController {
   constructor({
-    UsuarioService
+    UsuarioService,
+    UsuarioPermisoService
   }) {
     this._usuarioService = UsuarioService;
+    this._usuarioPermisoService = UsuarioPermisoService;
   }
 
   async getUsuarios(req, res) {
@@ -41,9 +43,9 @@ class UsuarioController {
     let payload = jwt.verify(token, 'secretKey');
     const idUser = payload.subject;
     const usuario = await this._usuarioService.get(idUser);
-    if(usuario){
-      return res.status(200).send({usuario})
-    }else{
+    if (usuario) {
+      return res.status(200).send({ usuario })
+    } else {
       return res.status(401).send();
     }
   }
@@ -74,14 +76,32 @@ class UsuarioController {
   }
 
   async createUsuario(req, res) {
-    const {
-      body
-    } = req;
-    const createdUsuario = await this._usuarioService.create(body);
-    const usuario = mapper(UsuarioDto, createdUsuario);
-    return res.status(201).send({
-      payload: usuario
-    });
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    const idUser = payload.subject;
+    const listaPermisos = this._usuarioPermisoService.getAll();
+    let permitido = false;
+    for (let i = 0; i < listaPermisos.length; i++) {
+      const permiso = listaPermisos[i];
+
+      if (idUser == permiso.UsuarioId && permiso.PermisoId == 1) {
+        permitido = true;
+      }
+
+    }
+
+    if (permitido) {
+      const { body } = req;
+      const createdUsuario = await this._usuarioService.create(body);
+      //const usuario = mapper(UsuarioDto, createdUsuario);
+      return res.status(201).send({
+        payload: createdUsuario
+      });
+    }else{
+      return res.status(401).send();
+    }
+
+
   }
 
   async updateUsuario(req, res) {
