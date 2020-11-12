@@ -6,6 +6,7 @@ class UsuarioPermisoController {
     }
 
     async getUsuarioPermisos(req, res) {
+        console.log(req.params);
         const { id } = req.params;
         const usuarioPermisos = await this._usuarioPermisoService.getAll();
         console.log(usuarioPermisos);
