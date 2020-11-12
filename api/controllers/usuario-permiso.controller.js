@@ -6,14 +6,11 @@ class UsuarioPermisoController {
     }
 
     async getUsuarioPermisos(req, res) {
-        console.log(req.params);
         const { id } = req.params;
         const usuarioPermisos = await this._usuarioPermisoService.getAll();
-        console.log(usuarioPermisos);
         let permisosUsuarioId = [];
         for (let i = 0; i < usuarioPermisos.length; i++) {
             const usuarioPermiso = usuarioPermisos[i];
-            console.log("Compare " + id + " with " + usuarioPermiso.UsuarioId)
             if (id == usuarioPermiso.UsuarioId) {
                 permisosUsuarioId.push(usuarioPermiso.PermisoId)
             }
