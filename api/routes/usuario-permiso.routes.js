@@ -20,7 +20,7 @@ module.exports = function({ UsuarioPermisoController }) {
     next()
   }
 
-  router.get("/:idUsuario", verifyToken, UsuarioPermisoController.getUsuarioPermisos.bind(UsuarioPermisoController));
+  router.get("/:id", verifyToken, UsuarioPermisoController.getUsuarioPermisos.bind(UsuarioPermisoController));
   router.get("/", verifyToken, UsuarioPermisoController.getUsuarioPermisos.bind(UsuarioPermisoController));
   router.post("/", verifyToken, UsuarioPermisoController.createUsuarioPermiso.bind(UsuarioPermisoController));
   router.put("/:id", verifyToken, UsuarioPermisoController.updateUsuarioPermiso.bind(UsuarioPermisoController));
