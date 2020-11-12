@@ -12,6 +12,7 @@ class UsuarioPermisoController {
         let permisosUsuarioId = [];
         for (let i = 0; i < usuarioPermisos.length; i++) {
             const usuarioPermiso = usuarioPermisos[i];
+            console.log("Compare " + id + " with " + usuarioPermiso.UsuarioId)
             if (id == usuarioPermiso.UsuarioId) {
                 permisosUsuarioId.push(usuarioPermiso.PermisoId)
             }
