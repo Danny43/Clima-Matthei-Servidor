@@ -27,6 +27,8 @@ module.exports = function({ UsuarioController }) {
   //Iniciar Sesion
   router.put("/",  UsuarioController.iniciarSesion.bind(UsuarioController));
 
+  router.put("/actualiza/:id",  UsuarioController.updateUsuario.bind(UsuarioController));
+
   router.get("/", verifyToken, UsuarioController.getMyUser.bind(UsuarioController));
 
   router.get("/list", verifyToken, UsuarioController.getUsuarios.bind(UsuarioController));
