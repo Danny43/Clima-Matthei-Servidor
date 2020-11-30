@@ -54,6 +54,7 @@ class RegistroController {
     NubosidadJournalService,
     VisibilidadJournalService,
     GeotermometroJournalService,
+    UsuarioPermisoService
   }) {
     this._registroService = RegistroService;
     this._temperaturaService = TemperaturaService;
@@ -73,6 +74,7 @@ class RegistroController {
     this._nubosidadJournalService = NubosidadJournalService;
     this._visibilidadJournalService = VisibilidadJournalService;
     this._geotermometroJournalService = GeotermometroJournalService;
+    this._usuarioPermisoService = UsuarioPermisoService;
   }
 
   async getRegistros(req, res) {
@@ -121,6 +123,7 @@ class RegistroController {
       payload: r2
     });
   }
+
   async getRegistroFecha(req, res) {
     const {
       fecha
@@ -129,8 +132,8 @@ class RegistroController {
     let registroF = null;
 
     var fechaPicker = new Date(fecha);
-    fechaPicker.setHours(0,0,0,0);
-    fechaPicker.setUTCHours(0,0,0,0);
+    fechaPicker.setHours(0, 0, 0, 0);
+    fechaPicker.setUTCHours(0, 0, 0, 0);
 
     registroF = await this._registroService.getbyFecha(fechaPicker);
     if (registroF != null) {
@@ -946,15 +949,33 @@ class RegistroController {
   }
 
   async updateRegistro(req, res) {
-    const {
-      body
-    } = req;
-    const {
-      id
-    } = req.params;
 
-    await this._registroService.update(id, body);
-    return res.status(204).send();
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    const idUser = payload.subject;
+    const listaPermisos = await this._usuarioPermisoService.getAll();
+    console.log(listaPermisos);
+    let permitido = false;
+    for (let i = 0; i < listaPermisos.length; i++) {
+      const permiso = listaPermisos[i];
+
+      if (idUser == permiso.UsuarioId && permiso.PermisoId == 6) {
+        permitido = true;
+      }
+
+    }
+
+    if (permitido) {
+      const { body } = req;
+      const { id } = req.params;
+  
+      await this._registroService.update(id, body);
+      return res.status(204).send();
+    } else {
+      return res.status(401).send();
+    }
+
+    
 
   }
 
