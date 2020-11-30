@@ -80,7 +80,6 @@ class UsuarioController {
     let payload = jwt.verify(token, 'secretKey');
     const idUser = payload.subject;
     const listaPermisos = await this._usuarioPermisoService.getAll();
-    console.log(listaPermisos);
     let permitido = false;
     for (let i = 0; i < listaPermisos.length; i++) {
       const permiso = listaPermisos[i];
@@ -94,7 +93,6 @@ class UsuarioController {
     if (permitido) {
       const { body } = req;
       const createdUsuario = await this._usuarioService.create(body);
-      //const usuario = mapper(UsuarioDto, createdUsuario);
       return res.status(201).send({
         payload: createdUsuario
       });
