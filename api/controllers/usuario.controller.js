@@ -104,15 +104,37 @@ class UsuarioController {
   }
 
   async updateUsuario(req, res) {
-    const {
-      body
-    } = req;
-    const {
-      id
-    } = req.params;
 
-    await this._usuarioService.update(id, body);
-    return res.status(204).send();
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    const idUser = payload.subject;
+    const listaPermisos = await this._usuarioPermisoService.getAll();
+    let permitido = false;
+    for (let i = 0; i < listaPermisos.length; i++) {
+      const permiso = listaPermisos[i];
+
+      if (idUser == permiso.UsuarioId && permiso.PermisoId == 2) {
+        permitido = true;
+      }
+
+    }
+
+    if (permitido) {
+      const {
+        body
+      } = req;
+      const {
+        id
+      } = req.params;
+  
+      await this._usuarioService.update(id, body);
+      return res.status(204).send();
+      
+    }else{
+      return res.status(401).send();
+    }
+
+    
   }
 
   async deleteUsuario(req, res) {
