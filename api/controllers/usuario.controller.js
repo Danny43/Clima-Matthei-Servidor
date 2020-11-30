@@ -14,11 +14,30 @@ class UsuarioController {
   }
 
   async getUsuarios(req, res) {
-    let usuarios = await this._usuarioService.getAll();
-    //usuarios = usuarios.map(usuario => mapper(UsuarioDto, usuario));
-    return res.send({
-      payload: usuarios
-    });
+
+    let token = req.headers.authorization.split(' ')[1];
+    let payload = jwt.verify(token, 'secretKey');
+    const idUser = payload.subject;
+    const listaPermisos = await this._usuarioPermisoService.getAll();
+    let permitido = false;
+    for (let i = 0; i < listaPermisos.length; i++) {
+      const permiso = listaPermisos[i];
+
+      if (idUser == permiso.UsuarioId && permiso.PermisoId == 3) {
+        permitido = true;
+      }
+
+    }
+
+    if (permitido) {
+      let usuarios = await this._usuarioService.getAll();
+      return res.send({
+        payload: usuarios
+      });
+    } else {
+      return res.status(401).send();
+    }
+
   }
 
   async getUsuario(req, res) {
@@ -96,7 +115,7 @@ class UsuarioController {
       return res.status(201).send({
         payload: createdUsuario
       });
-    }else{
+    } else {
       return res.status(401).send();
     }
 
@@ -126,15 +145,15 @@ class UsuarioController {
       const {
         id
       } = req.params;
-  
+
       await this._usuarioService.update(id, body);
       return res.status(204).send();
-      
-    }else{
+
+    } else {
       return res.status(401).send();
     }
 
-    
+
   }
 
   async deleteUsuario(req, res) {
